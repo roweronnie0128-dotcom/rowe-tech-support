@@ -72,6 +72,7 @@ border-radius:15px;
 padding:16px;
 font-size:20px;
 font-weight:800;
+cursor:pointer;
 }
 
 .back{
@@ -168,6 +169,11 @@ font-size:10px;
 
 .doc div{
 flex:1;
+min-width:0;
+}
+
+.doc b{
+word-break:break-word;
 }
 
 .doc small{
@@ -185,6 +191,12 @@ border-radius:8px;
 padding:9px 12px;
 text-decoration:none;
 font-size:12px;
+white-space:nowrap;
+}
+
+.doc a:hover,
+.live:hover{
+border-color:#58b0ff;
 }
 
 .notice{
@@ -194,6 +206,12 @@ border:1px dashed #3b4853;
 border-radius:12px;
 color:#aab5bf;
 line-height:1.5;
+}
+
+.loading{
+padding:25px;
+text-align:center;
+color:#9aa7b2;
 }
 
 footer{
@@ -227,6 +245,20 @@ letter-spacing:3px;
 h1{
 font-size:30px;
 }
+
+.crumb{
+gap:10px;
+}
+
+.doc{
+align-items:flex-start;
+flex-wrap:wrap;
+}
+
+.doc a{
+margin-left:48px;
+}
+
 }
 </style>
 </head>
@@ -268,13 +300,31 @@ ROWE Tech Support • Independent technical reference • Source: Addison Automa
 
 <script>
 
+/* =========================================================
+   ROWE TECH SUPPORT
+   LIVE ADDISON DIRECTORY ENGINE
+========================================================= */
+
 const BASE =
 "https://www.addisonautomatics.com/wp-content/uploads/manuals/";
 
+/*
+   Jina is used ONLY to READ the Addison directory listing.
 
-/* =========================================
+   PDF FILES ARE NEVER SENT THROUGH JINA.
+
+   When a PDF is opened, the app uses the original Addison
+   URL that came from the directory listing.
+*/
+const PROXY =
+"https://r.jina.ai/http://www.addisonautomatics.com/wp-content/uploads/manuals/";
+
+
+/* =========================================================
    MANUFACTURERS
-========================================= */
+
+   These are the actual manufacturer directories.
+========================================================= */
 
 const manufacturers = [
 
@@ -301,224 +351,465 @@ const manufacturers = [
 ];
 
 
-/* =========================================
-   DORMA DOCUMENTS
-========================================= */
-
-const catalog = {
-
-"Dorma":{
-
-folders:[
-"Slider",
-"Swinger"
-],
-
-files:[
-
-["ED100 / ED250","ED100 & ED250 Mounting Instructions 02-21-12.pdf"],
-
-["ED100 / ED250","ED100 & ED250.pdf"],
-
-["ED400","ED400 - ControllerManual.pdf"],
-
-["ED400","ED400 OHC.pdf"],
-
-["ED400","ED400 SA.pdf"],
-
-["ED700","ED700 NS Digital.pdf"],
-
-["ED700","ED700 OLD STYLE.pdf"],
-
-["ED800","ED800 INSTALLATION.pdf"],
-
-["ED800","ED800 SERVICE.pdf"],
-
-["ED900","ED900 PROGRAMMING.pdf"],
-
-["ED900","ED900.pdf"],
-
-["ED900","ED900DoorOperatorInstal-0114 THIS ONE.pdf"],
-
-["ESA","ESA 100.pdf"],
-
-["ESA","ESA 200.pdf"],
-
-["ESA","ESA 300 w ESA II 1-07.pdf"],
-
-["ESA","ESA 400.pdf"],
-
-["ESA","ESA II FULL MANUAL.pdf"],
-
-["ESA","ESA I WIRING.pdf"],
-
-["Parts","OLD DORMA PARTS CATALOG.pdf"],
-
-["Programming","Program Switches.pdf"],
-
-["ICU","DORMA ICU 300.pdf"],
-
-["ICU","DORMA ICU 300 TRACKLESS.pdf"]
-
-]
-
-},
-
-
-/* =========================================
-   BESAM
-========================================= */
-
-"Besam":{
-
-folders:[
-"Fold",
-"ICU",
-"Revolver",
-"Slider",
-"Swinger"
-],
-
-files:[
-
-["Root","BIG BLUE BESAM PARTS BOOK.pdf"]
-
-]
-
-},
-
-
-/* =========================================
-   RECORD
-========================================= */
-
-"Record":{
-
-folders:[],
-
-files:[
-
-["Root","4500 FOLD SYS 20.pdf"],
-
-["Root","5100 SYSTEM 19.pdf"],
-
-["Root","6100 INSTALL MANUAL.pdf"],
-
-["Root","8100 INSTALL SWINGER.pdf"],
-
-["Root","Alarm&Error Messages.pdf"],
-
-["Root","PARAMETER ERROR CODE EXPLANATIONS.pdf"],
-
-["Root","SWINGER PROGRAMMING A PAIR.pdf"],
-
-["Root","SYSTEM 20 PARAMETERS.pdf"]
-
-]
-
-},
-
-
-/* =========================================
-   TORMAX
-========================================= */
-
-"Tormax":{
-
-folders:[],
-
-files:[
-
-["Root","SLIDER I MOTION.pdf"],
-
-["Root","SLIDER TCP51.pdf"],
-
-["Root","SWINGER 1102 1201.pdf"],
-
-["Root","SWINGER NEW 1102 1201.pdf"],
-
-["Root","SWINGER TDA.pdf"],
-
-["Root","TX9000 SLIDER PARTS CATALOG.pdf"],
-
-["Root","US801279_1301_Installation_and_Operating_Manual_V6.17.pdf"]
-
-]
-
-}
+/* =========================================================
+   ACTUAL ADDISON DIRECTORY NAMES
+
+   The displayed manufacturer name and actual folder name
+   are kept separate.
+
+   This prevents things like:
+
+   Nabco GyroTech -> Nabco_GyroTech
+
+   from appearing incorrectly in the GUI.
+========================================================= */
+
+const manufacturerPaths = {
+
+"BEA":"BEA/",
+"Besam":"Besam/",
+"Detex":"Detex/",
+"DOM":"DOM/",
+"Dorma":"Dorma/",
+"Gildor":"Gildor/",
+"Horton":"Horton/",
+"Hunter-Entrematic":"Hunter-Entrematic/",
+"KM":"KM/",
+"LCN":"LCN/",
+"Motion Access":"Motion%20Access/",
+"Nabco GyroTech":"Nabco_GyroTech/",
+"Norton":"Norton/",
+"Optex":"Optex/",
+"Record":"record/",
+"Stanley":"Stanley/",
+"TJ084":"TJ084/",
+"Tormax":"Tormax/",
+"Tucker":"Tucker/"
 
 };
 
 
-/* =========================================
-   CLEAN URL ENCODING
-========================================= */
+/* =========================================================
+   CACHE
 
-function encodePath(value){
+   Once a directory has been read, keep it in memory so
+   going back and forth doesn't repeatedly request it.
+========================================================= */
 
-return encodeURIComponent(value);
-
-}
+const directoryCache = new Map();
 
 
-/* =========================================
-   MANUFACTURER DIRECTORY
-========================================= */
+/* =========================================================
+   CURRENT NAVIGATION
+========================================================= */
 
-function manufacturerFolder(name){
+let navigationStack = [];
 
-const folderNames={
 
-"BEA":"BEA",
+/* =========================================================
+   HTML SAFETY
+========================================================= */
 
-"Besam":"Besam",
+function escapeHTML(value){
 
-"Detex":"Detex",
-
-"DOM":"DOM",
-
-"Dorma":"Dorma",
-
-"Gildor":"Gildor",
-
-"Horton":"Horton",
-
-"Hunter-Entrematic":"Hunter-Entrematic",
-
-"KM":"KM",
-
-"LCN":"LCN",
-
-"Motion Access":"Motion%20Access",
-
-"Nabco GyroTech":"Nabco_GyroTech",
-
-"Norton":"Norton",
-
-"Optex":"Optex",
-
-"Record":"record",
-
-"Stanley":"Stanley",
-
-"TJ084":"TJ084",
-
-"Tormax":"Tormax",
-
-"Tucker":"Tucker"
-
-};
-
-return folderNames[name] || name;
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
-/* =========================================
+/* =========================================================
+   GET MANUFACTURER DIRECTORY URL
+========================================================= */
+
+function manufacturerURL(name){
+
+const path =
+manufacturerPaths[name] || encodeURIComponent(name) + "/";
+
+return BASE + path;
+
+}
+
+
+/* =========================================================
+   PROXY DIRECTORY URL
+========================================================= */
+
+function proxyURL(url){
+
+return "https://r.jina.ai/http://" +
+url.replace(/^https?:\/\//i,"");
+
+}
+
+
+/* =========================================================
+   NORMALIZE URL
+
+   This is the important part.
+
+   The URL is resolved against the ORIGINAL Addison
+   directory URL.
+
+   Nothing is rebuilt from the visible filename.
+========================================================= */
+
+function resolveOriginalURL(href,currentURL){
+
+try{
+
+return new URL(
+href,
+currentURL
+).href;
+
+}catch(error){
+
+return href;
+
+}
+
+}
+
+
+/* =========================================================
+   DETERMINE IF LINK IS A PDF
+========================================================= */
+
+function isPDF(url,name){
+
+const value =
+(String(url || "") + " " + String(name || ""))
+.toLowerCase();
+
+return (
+value.includes(".pdf") ||
+value.includes(".pdf?")
+);
+
+}
+
+
+/* =========================================================
+   DETERMINE IF LINK IS A DIRECTORY
+========================================================= */
+
+function isDirectory(href,name){
+
+const h = String(href || "");
+const n = String(name || "");
+
+if(h === "../") return false;
+
+if(isPDF(h,n)) return false;
+
+return (
+h.endsWith("/") ||
+n.endsWith("/") ||
+(!h.includes(".") && !n.includes("."))
+);
+
+}
+
+
+/* =========================================================
+   CLEAN DISPLAY NAME
+
+   Only cleans the text shown to the user.
+
+   It DOES NOT alter the actual URL.
+========================================================= */
+
+function cleanDisplayName(value){
+
+let name =
+String(value || "")
+.trim();
+
+name =
+name.replace(/\/$/,"");
+
+try{
+
+name =
+decodeURIComponent(name);
+
+}catch(e){}
+
+return name.trim();
+
+}
+
+
+/* =========================================================
+   PARSE HTML DIRECTORY LISTING
+
+   Handles Apache-style directory listings.
+========================================================= */
+
+function parseHTMLLinks(text,currentURL){
+
+const results=[];
+const seen=new Set();
+
+const parser =
+new DOMParser();
+
+const doc =
+parser.parseFromString(
+text,
+"text/html"
+);
+
+const anchors =
+Array.from(
+doc.querySelectorAll("a[href]")
+);
+
+anchors.forEach(function(anchor){
+
+const href =
+anchor.getAttribute("href");
+
+if(!href) return;
+
+const rawName =
+anchor.textContent.trim();
+
+const fullURL =
+resolveOriginalURL(
+href,
+currentURL
+);
+
+if(
+!fullURL ||
+fullURL === currentURL
+) return;
+
+if(
+href === "../" ||
+rawName === "../"
+) return;
+
+let name =
+cleanDisplayName(
+rawName || href
+);
+
+if(!name) return;
+
+const key =
+fullURL.toLowerCase();
+
+if(seen.has(key)) return;
+
+seen.add(key);
+
+results.push({
+
+name:name,
+url:fullURL,
+folder:isDirectory(href,name),
+pdf:isPDF(href,name)
+
+});
+
+});
+
+return results;
+
+}
+
+
+/* =========================================================
+   PARSE MARKDOWN LINKS
+
+   Jina sometimes converts the directory into Markdown.
+
+   This parser handles that format too.
+========================================================= */
+
+function parseMarkdownLinks(text,currentURL){
+
+const results=[];
+const seen=new Set();
+
+const regex =
+/\[[^\]]+\]\(([^)]+)\)/g;
+
+let match;
+
+while(
+(match = regex.exec(text))
+!== null
+){
+
+let fullMatch =
+match[0];
+
+let href =
+match[1];
+
+let name =
+fullMatch
+.substring(
+1,
+fullMatch.indexOf("]")
+);
+
+if(!href) continue;
+
+if(
+href.startsWith("<") &&
+href.endsWith(">")
+){
+
+href =
+href.slice(1,-1);
+
+}
+
+if(
+href === "../" ||
+name === "../"
+) continue;
+
+const fullURL =
+resolveOriginalURL(
+href,
+currentURL
+);
+
+if(!fullURL) continue;
+
+const key =
+fullURL.toLowerCase();
+
+if(seen.has(key)) continue;
+
+seen.add(key);
+
+name =
+cleanDisplayName(
+name || href
+);
+
+results.push({
+
+name:name,
+url:fullURL,
+folder:isDirectory(href,name),
+pdf:isPDF(href,name)
+
+});
+
+}
+
+return results;
+
+}
+
+
+/* =========================================================
+   PARSE DIRECTORY
+
+   First tries real HTML anchors.
+
+   If that doesn't work, tries Markdown.
+========================================================= */
+
+function parseDirectory(text,currentURL){
+
+let results =
+parseHTMLLinks(
+text,
+currentURL
+);
+
+if(results.length > 0){
+
+return results;
+
+}
+
+return parseMarkdownLinks(
+text,
+currentURL
+);
+
+}
+
+
+/* =========================================================
+   FETCH DIRECTORY
+
+   Only directory HTML is proxied.
+
+   Original Addison links remain untouched.
+========================================================= */
+
+async function getDirectory(url){
+
+if(directoryCache.has(url)){
+
+return directoryCache.get(url);
+
+}
+
+const requestURL =
+proxyURL(url);
+
+const response =
+await fetch(
+requestURL,
+{
+cache:"no-store"
+}
+);
+
+if(!response.ok){
+
+throw new Error(
+"Directory request failed: " +
+response.status
+);
+
+}
+
+const text =
+await response.text();
+
+const items =
+parseDirectory(
+text,
+url
+);
+
+directoryCache.set(
+url,
+items
+);
+
+return items;
+
+}
+
+
+/* =========================================================
    HOME
-========================================= */
+========================================================= */
 
 function home(){
+
+navigationStack=[];
+
+document.getElementById("search").value="";
 
 let cards="";
 
@@ -528,10 +819,10 @@ cards+=`
 
 <button
 class="maker"
-onclick="openMaker('${name}')"
+onclick="openMaker(${JSON.stringify(name)})"
 >
 
-<b>${name}</b>
+<b>${escapeHTML(name)}</b>
 
 <span>
 Automatic door technical documentation
@@ -554,7 +845,7 @@ MANUFACTURER LIBRARY
 </h2>
 
 <p>
-Select a manufacturer. Folder names and document names stay clean and separate.
+Select a manufacturer to browse its live Addison directory.
 </p>
 
 <div class="grid">
@@ -566,13 +857,142 @@ ${cards}
 }
 
 
-/* =========================================
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+function back(){
+
+if(navigationStack.length <= 1){
+
+home();
+
+return;
+
+}
+
+navigationStack.pop();
+
+const previous =
+navigationStack[
+navigationStack.length - 1
+];
+
+if(previous.type === "maker"){
+
+openMaker(
+previous.name,
+false
+);
+
+return;
+
+}
+
+if(previous.type === "folder"){
+
+openFolder(
+previous.manufacturer,
+previous.name,
+previous.url,
+false
+);
+
+}
+
+}
+
+
+/* =========================================================
    OPEN MANUFACTURER
-========================================= */
+========================================================= */
 
-function openMaker(name){
+async function openMaker(
+name,
+pushHistory=true
+){
 
-const data=catalog[name];
+const url =
+manufacturerURL(name);
+
+if(pushHistory){
+
+navigationStack.push({
+
+type:"maker",
+name:name,
+url:url
+
+});
+
+}
+
+document.getElementById("app").innerHTML=`
+
+<div class="crumb">
+
+<button
+class="back"
+onclick="back()"
+>
+← BACK
+</button>
+
+<h1>
+${escapeHTML(name)}
+</h1>
+
+</div>
+
+<div class="loading">
+Loading ${escapeHTML(name)} directory...
+</div>
+
+`;
+
+try{
+
+const items =
+await getDirectory(url);
+
+renderDirectory(
+name,
+url,
+items
+);
+
+}catch(error){
+
+renderDirectoryError(
+name,
+url,
+error
+);
+
+}
+
+}
+
+
+/* =========================================================
+   RENDER DIRECTORY
+========================================================= */
+
+function renderDirectory(
+manufacturer,
+currentURL,
+items
+){
+
+const folders =
+items.filter(
+item => item.folder
+);
+
+const pdfs =
+items.filter(
+item => item.pdf
+);
 
 let html=`
 
@@ -580,25 +1000,20 @@ let html=`
 
 <button
 class="back"
-onclick="home()"
+onclick="back()"
 >
 ← BACK
 </button>
 
 <h1>
-${name}
+${escapeHTML(manufacturer)}
 </h1>
 
 </div>
 
 `;
 
-
-/* -----------------------------------------
-   FOLDERS
------------------------------------------ */
-
-if(data && data.folders.length){
+if(folders.length){
 
 html+=`
 
@@ -610,19 +1025,22 @@ FOLDERS
 
 `;
 
-data.folders.forEach(function(folder){
+folders.forEach(function(item){
 
 html+=`
 
 <button
 class="folder"
-onclick="openFolder('${name}','${folder}')"
+onclick='openFolder(
+${JSON.stringify(manufacturer)},
+${JSON.stringify(item.name)},
+${JSON.stringify(item.url)}
+)'
 >
 
 📁
-
 <b>
-${folder}
+${escapeHTML(item.name)}
 </b>
 
 </button>
@@ -640,11 +1058,7 @@ html+=`
 }
 
 
-/* -----------------------------------------
-   DOCUMENTS
------------------------------------------ */
-
-if(data && data.files.length){
+if(pdfs.length){
 
 html+=`
 
@@ -654,12 +1068,18 @@ DOCUMENTS
 
 `;
 
-data.files.forEach(function(file){
+pdfs.forEach(function(item){
 
 html+=createDocument(
-name,
-file[1],
-file[0]
+
+manufacturer,
+
+item.name,
+
+item.url,
+
+""
+
 );
 
 });
@@ -667,19 +1087,27 @@ file[0]
 }
 
 
-/* -----------------------------------------
-   OTHER MANUFACTURERS
------------------------------------------ */
-
-if(!data){
+if(
+!folders.length &&
+!pdfs.length
+){
 
 html+=`
 
 <div class="notice">
 
-This manufacturer is available as a live Addison directory.
+No documents or folders were found in this directory.
 
-Its complete file list can be indexed into the app without changing the interface.
+<br><br>
+
+<a
+class="live"
+href="${escapeHTML(currentURL)}"
+target="_blank"
+rel="noopener"
+>
+OPEN ORIGINAL DIRECTORY ↗
+</a>
 
 </div>
 
@@ -688,101 +1116,194 @@ Its complete file list can be indexed into the app without changing the interfac
 }
 
 
-/* -----------------------------------------
-   LIVE DIRECTORY
------------------------------------------ */
-
 html+=`
 
 <p>
 
 <a
 class="live"
-href="${BASE}${encodePath(manufacturerFolder(name))}/"
+href="${escapeHTML(currentURL)}"
 target="_blank"
+rel="noopener"
 >
-
-OPEN LIVE ${name} DIRECTORY ↗
-
+OPEN LIVE ${escapeHTML(manufacturer)} DIRECTORY ↗
 </a>
 
 </p>
 
 `;
 
-
 document.getElementById("app").innerHTML=html;
 
 }
 
 
-/* =========================================
+/* =========================================================
    OPEN FOLDER
-========================================= */
+========================================================= */
 
-function openFolder(manufacturer,folder){
+async function openFolder(
+manufacturer,
+folderName,
+folderURL,
+pushHistory=true
+){
 
-const data=catalog[manufacturer];
+if(pushHistory){
 
-let files=[];
+navigationStack.push({
 
-if(data){
-
-files=data.files.filter(function(file){
-
-return file[0].toLowerCase() ===
-folder.toLowerCase();
+type:"folder",
+manufacturer:manufacturer,
+name:folderName,
+url:folderURL
 
 });
 
 }
 
-
-let html=`
+document.getElementById("app").innerHTML=`
 
 <div class="crumb">
 
 <button
 class="back"
-onclick="openMaker('${manufacturer}')"
+onclick="back()"
 >
 ← BACK
 </button>
 
 <h1>
-${folder}
+${escapeHTML(folderName)}
 </h1>
 
 </div>
 
 <p>
-${manufacturer} / ${folder}
+${escapeHTML(manufacturer)}
+ / 
+${escapeHTML(folderName)}
 </p>
+
+<div class="loading">
+Loading folder...
+</div>
 
 `;
 
+try{
 
-if(files.length){
+const items =
+await getDirectory(folderURL);
 
-files.forEach(function(file){
+const folders =
+items.filter(
+item => item.folder
+);
+
+const pdfs =
+items.filter(
+item => item.pdf
+);
+
+let html="";
+
+
+if(folders.length){
+
+html+=`
+
+<h2>
+FOLDERS
+</h2>
+
+<div class="grid">
+
+`;
+
+folders.forEach(function(item){
+
+html+=`
+
+<button
+class="folder"
+onclick='openFolder(
+${JSON.stringify(manufacturer)},
+${JSON.stringify(item.name)},
+${JSON.stringify(item.url)}
+)'
+>
+
+📁
+<b>
+${escapeHTML(item.name)}
+</b>
+
+</button>
+
+`;
+
+});
+
+html+=`
+
+</div>
+
+`;
+
+}
+
+
+if(pdfs.length){
+
+html+=`
+
+<h2>
+DOCUMENTS
+</h2>
+
+`;
+
+pdfs.forEach(function(item){
 
 html+=createDocument(
+
 manufacturer,
-file[1],
-folder
+
+item.name,
+
+item.url,
+
+folderName
+
 );
 
 });
 
-}else{
+}
+
+
+if(
+!folders.length &&
+!pdfs.length
+){
 
 html+=`
 
 <div class="notice">
 
-This folder is recognized by the app.
+No documents were found in this folder.
 
-Its live Addison directory is available below.
+<br><br>
+
+<a
+class="live"
+href="${escapeHTML(folderURL)}"
+target="_blank"
+rel="noopener"
+>
+OPEN ORIGINAL FOLDER ↗
+</a>
 
 </div>
 
@@ -797,52 +1318,74 @@ html+=`
 
 <a
 class="live"
-href="${BASE}${encodePath(manufacturerFolder(manufacturer))}/${encodePath(folder)}/"
+href="${escapeHTML(folderURL)}"
 target="_blank"
+rel="noopener"
 >
-
 OPEN LIVE FOLDER ↗
-
 </a>
 
 </p>
 
 `;
 
+document.getElementById("app").innerHTML=`
 
-document.getElementById("app").innerHTML=html;
+<div class="crumb">
+
+<button
+class="back"
+onclick="back()"
+>
+← BACK
+</button>
+
+<h1>
+${escapeHTML(folderName)}
+</h1>
+
+</div>
+
+<p>
+${escapeHTML(manufacturer)}
+ / 
+${escapeHTML(folderName)}
+</p>
+
+${html}
+
+`;
+
+}catch(error){
+
+renderDirectoryError(
+folderName,
+folderURL,
+error
+);
+
+}
 
 }
 
 
-/* =========================================
+/* =========================================================
    CREATE DOCUMENT
-========================================= */
+
+   IMPORTANT:
+
+   "url" is the EXACT ORIGINAL URL found in the Addison
+   directory.
+
+   We do NOT rebuild it from manufacturer + filename.
+========================================================= */
 
 function createDocument(
 manufacturer,
-file,
+fileName,
+originalURL,
 folder
 ){
-
-let manufacturerFolderName =
-manufacturerFolder(manufacturer);
-
-let url =
-BASE +
-manufacturerFolderName +
-"/";
-
-
-if(folder && folder !== "Root"){
-
-url += encodePath(folder) + "/";
-
-}
-
-
-url += encodePath(file);
-
 
 return `
 
@@ -855,15 +1398,15 @@ PDF
 <div>
 
 <b>
-${file}
+${escapeHTML(fileName)}
 </b>
 
 <small>
 
-${manufacturer}
+${escapeHTML(manufacturer)}
 
-${folder && folder !== "Root"
-? " / " + folder
+${folder
+? " / " + escapeHTML(folder)
 : ""}
 
 </small>
@@ -871,12 +1414,11 @@ ${folder && folder !== "Root"
 </div>
 
 <a
-href="${url}"
+href="${escapeHTML(originalURL)}"
 target="_blank"
+rel="noopener"
 >
-
 OPEN PDF ↗
-
 </a>
 
 </div>
@@ -886,18 +1428,94 @@ OPEN PDF ↗
 }
 
 
-/* =========================================
-   SEARCH
-========================================= */
+/* =========================================================
+   ERROR DISPLAY
+========================================================= */
 
-function searchDocs(){
+function renderDirectoryError(
+name,
+url,
+error
+){
+
+document.getElementById("app").innerHTML=`
+
+<div class="crumb">
+
+<button
+class="back"
+onclick="back()"
+>
+← BACK
+</button>
+
+<h1>
+${escapeHTML(name)}
+</h1>
+
+</div>
+
+<div class="notice">
+
+Unable to read this directory automatically.
+
+<br><br>
+
+This does not mean the Addison files are missing.
+
+<br><br>
+
+<a
+class="live"
+href="${escapeHTML(url)}"
+target="_blank"
+rel="noopener"
+>
+OPEN ORIGINAL DIRECTORY ↗
+</a>
+
+</div>
+
+`;
+
+console.error(error);
+
+}
+
+
+/* =========================================================
+   SEARCH
+
+   Search the directories that have already been opened.
+
+   If the user searches before opening a manufacturer,
+   we automatically search all manufacturer directories.
+
+   Results use the ORIGINAL ADDISON PDF URL.
+========================================================= */
+
+let searchTimer=null;
+
+async function searchDocs(){
+
+clearTimeout(searchTimer);
+
+searchTimer =
+setTimeout(
+performSearch,
+250
+);
+
+}
+
+
+async function performSearch(){
 
 const query =
 document.getElementById("search")
 .value
 .trim()
 .toLowerCase();
-
 
 if(!query){
 
@@ -906,49 +1524,6 @@ home();
 return;
 
 }
-
-
-let results=[];
-
-
-for(const manufacturer in catalog){
-
-const data=catalog[manufacturer];
-
-
-data.files.forEach(function(file){
-
-const searchText=
-
-manufacturer +
-" " +
-file[0] +
-" " +
-file[1];
-
-
-if(
-searchText
-.toLowerCase()
-.includes(query)
-){
-
-results.push(
-
-createDocument(
-manufacturer,
-file[1],
-file[0]
-)
-
-);
-
-}
-
-});
-
-}
-
 
 document.getElementById("app").innerHTML=`
 
@@ -967,16 +1542,135 @@ SEARCH
 
 </div>
 
+<div class="loading">
+Searching manufacturer directories...
+</div>
+
+`;
+
+
+const results=[];
+
+
+/* -----------------------------------------
+   SEARCH ALL MANUFACTURERS
+
+   Each manufacturer root is loaded.
+
+   Only PDFs in that directory are indexed here.
+   Folder navigation remains available separately.
+----------------------------------------- */
+
+for(
+const manufacturer of manufacturers
+){
+
+try{
+
+const url =
+manufacturerURL(
+manufacturer
+);
+
+const items =
+await getDirectory(url);
+
+items.forEach(function(item){
+
+if(!item.pdf) return;
+
+const searchText = (
+
+manufacturer +
+" " +
+item.name
+
+).toLowerCase();
+
+if(
+searchText.includes(query)
+){
+
+results.push({
+
+manufacturer:
+manufacturer,
+
+name:
+item.name,
+
+url:
+item.url
+
+});
+
+}
+
+});
+
+}catch(error){
+
+console.warn(
+"Search failed for",
+manufacturer,
+error
+);
+
+}
+
+}
+
+
+/* -----------------------------------------
+   RENDER SEARCH RESULTS
+----------------------------------------- */
+
+let html=`
+
+<div class="crumb">
+
+<button
+class="back"
+onclick="home()"
+>
+← BACK
+</button>
+
+<h1>
+SEARCH
+</h1>
+
+</div>
+
 <p>
-${results.length} indexed document matches
+${results.length}
+document${results.length === 1 ? "" : "s"}
+found
 </p>
 
-${
-results.length
-?
-results.join("")
-:
-`
+`;
+
+if(results.length){
+
+results.forEach(function(item){
+
+html+=createDocument(
+
+item.manufacturer,
+
+item.name,
+
+item.url,
+
+""
+
+);
+
+});
+
+}else{
+
+html+=`
 
 <div class="notice">
 
@@ -984,48 +1678,30 @@ No indexed document matched that search.
 
 <br><br>
 
-Try:
+Try searching for a manufacturer or model such as:
 
-<strong>
-Dorma
-</strong>,
-
-<strong>
-ED900
-</strong>,
-
-<strong>
-ED700
-</strong>,
-
-<strong>
-Besam
-</strong>,
-
-<strong>
-Record
-</strong>
-
+<strong>Dorma</strong>,
+<strong>ED900</strong>,
+<strong>ED700</strong>,
+<strong>Besam</strong>,
+<strong>Record</strong>,
 or
-
-<strong>
-Tormax
-</strong>.
+<strong>Tormax</strong>.
 
 </div>
-
-`
-
-}
 
 `;
 
 }
 
+document.getElementById("app").innerHTML=html;
 
-/* =========================================
-   START APP
-========================================= */
+}
+
+
+/* =========================================================
+   START
+========================================================= */
 
 home();
 
