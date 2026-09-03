@@ -8,23 +8,41 @@
 <title>ROWE Tech Support</title>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
 
+html,
 body {
     margin: 0;
+    padding: 0;
     background: #080a0d;
-    color: #ffffff;
+    color: #f2f4f6;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.container {
+body {
+    min-height: 100vh;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
     width: 100%;
     max-width: 1100px;
     margin: auto;
     padding: 18px;
 }
+
+/* HEADER */
 
 header {
     text-align: center;
@@ -39,196 +57,360 @@ header {
 }
 
 .subtitle {
-    color: #9da5ae;
+    color: #9ca5ae;
     font-size: 12px;
     letter-spacing: 2px;
     margin-top: 8px;
 }
 
-.search {
+/* SEARCH */
+
+.search-box {
     display: flex;
-    gap: 10px;
-    margin: 20px 0;
+    gap: 9px;
     background: #15191e;
     border: 1px solid #39434d;
-    padding: 10px;
     border-radius: 14px;
+    padding: 9px;
+    margin-top: 18px;
 }
 
-.search input {
+.search-box input {
     flex: 1;
     min-width: 0;
-    background: transparent;
     border: none;
     outline: none;
+    background: transparent;
     color: white;
-    font-size: 17px;
-    padding: 10px;
+    font-size: 16px;
+    padding: 11px;
 }
 
-button,
-.source-button {
-    background: #252c33;
-    color: white;
-    border: 1px solid #46515c;
-    border-radius: 10px;
-    padding: 13px 16px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.blue {
+.blue-button {
     background: #1677d2;
-    border-color: #318de0;
+    border: 1px solid #318de0;
+    color: white;
+    border-radius: 10px;
+    padding: 12px 17px;
+    font-weight: bold;
+    font-size: 15px;
 }
 
-h2 {
-    color: #b7bec6;
+/* HEADINGS */
+
+.section-title {
+    color: #b8c0c8;
     font-size: 17px;
     letter-spacing: 1px;
-    margin: 20px 0 12px;
+    margin: 18px 0 12px;
 }
 
-.manufacturers {
+/* MANUFACTURERS */
+
+.manufacturer-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
 }
 
-.manufacturer {
-    min-height: 65px;
-    text-align: left;
+.manufacturer-button {
+    width: 100%;
+    min-height: 66px;
     display: flex;
     align-items: center;
     gap: 12px;
+    text-align: left;
+
+    background: #252c33;
+    border: 1px solid #46515c;
+    color: white;
+    border-radius: 11px;
+    padding: 13px;
+    font-size: 15px;
+    font-weight: bold;
 }
 
-.icon {
+.manufacturer-button:hover,
+.item-button:hover {
+    border-color: #318de0;
+    background: #2b333b;
+}
+
+.folder-icon {
     color: #48a5ff;
-    font-size: 22px;
+    font-size: 23px;
 }
 
 .arrow {
     margin-left: auto;
-    color: #8e98a2;
+    color: #8d98a3;
     font-size: 22px;
 }
 
-.info {
-    background: #15191e;
-    border: 1px solid #39434d;
-    border-radius: 14px;
-    padding: 17px;
+/* INFO */
+
+.info-box {
     margin-top: 20px;
-    color: #9da5ae;
+    padding: 17px;
+    border-radius: 14px;
+    border: 1px solid #39434d;
+    background: #15191e;
+    color: #9ca5ae;
     line-height: 1.5;
 }
 
-.info strong {
+.info-title {
     color: #48a5ff;
+    font-weight: bold;
 }
 
-#searchResults {
+/* LIBRARY SCREEN */
+
+.screen {
     display: none;
 }
 
-.result {
+.screen.active {
     display: block;
-    background: #20262c;
-    border: 1px solid #3a454f;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.back-button {
+    background: #252c33;
+    border: 1px solid #46515c;
+    color: white;
     border-radius: 10px;
+    padding: 11px 14px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.page-title {
+    flex: 1;
+    font-size: 20px;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* BREADCRUMB */
+
+.breadcrumb {
+    background: #11151a;
+    border: 1px solid #303942;
+    border-radius: 10px;
+    padding: 11px 13px;
+    margin-bottom: 12px;
+    color: #9ca5ae;
+    font-size: 13px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+/* LOADING */
+
+.loading {
+    text-align: center;
+    padding: 35px 15px;
+    color: #9ca5ae;
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #303840;
+    border-top-color: #318de0;
+    border-radius: 50%;
+    margin: 0 auto 12px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* FILE/FOLDER LIST */
+
+.library-list {
+    display: grid;
+    gap: 9px;
+}
+
+.item-button {
+    width: 100%;
+    min-height: 62px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    text-align: left;
+
+    background: #20262c;
+    border: 1px solid #39444e;
+    border-radius: 11px;
+    padding: 13px;
+    color: white;
+}
+
+.item-icon {
+    width: 32px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.item-name {
+    flex: 1;
+    font-size: 15px;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.item-type {
+    display: block;
+    color: #7f8a95;
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.folder-item .item-icon {
+    color: #48a5ff;
+}
+
+.pdf-item .item-icon {
+    color: #d4d8dc;
+}
+
+.external-item .item-icon {
+    color: #48a5ff;
+}
+
+/* SEARCH RESULTS */
+
+.search-results {
+    display: grid;
+    gap: 9px;
+}
+
+.search-result {
+    display: block;
+    width: 100%;
+    background: #20262c;
+    border: 1px solid #39444e;
+    border-radius: 11px;
     padding: 14px;
-    margin: 8px 0;
     color: white;
     text-decoration: none;
 }
 
-.result small {
-    display: block;
-    color: #8f99a3;
-    margin-top: 5px;
-}
-
-.library {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: #080a0d;
-    z-index: 100;
-}
-
-.library-header {
-    height: 60px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px;
-    background: #11151a;
-    border-bottom: 1px solid #39434d;
-}
-
-.library-title {
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.search-result-title {
     font-weight: bold;
 }
 
-.library iframe {
-    width: 100%;
-    height: calc(100% - 60px);
-    border: none;
-    background: white;
+.search-result-path {
+    color: #7f8a95;
+    font-size: 12px;
+    margin-top: 6px;
 }
 
-@media(max-width:700px) {
-    .manufacturers {
+/* NOTICE */
+
+.notice {
+    padding: 16px;
+    background: #15191e;
+    border: 1px solid #39434d;
+    border-radius: 13px;
+    color: #9ca5ae;
+    line-height: 1.5;
+}
+
+.notice strong {
+    color: #48a5ff;
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    color: #68727c;
+    font-size: 11px;
+    padding: 30px 10px 10px;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .manufacturer-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
 }
 
-@media(max-width:450px) {
-    .manufacturers {
+@media (max-width: 460px) {
+
+    .manufacturer-grid {
         grid-template-columns: 1fr;
     }
 
-    .search {
+    .search-box {
         flex-direction: column;
     }
 
-    .search button {
+    .search-box .blue-button {
         width: 100%;
     }
+
+    .topbar {
+        gap: 7px;
+    }
+
+    .page-title {
+        font-size: 17px;
+    }
+
 }
+
 </style>
 </head>
 
+
 <body>
 
-<div class="container">
+<div class="app">
 
 <header>
 
-<img src="rowe-logo.png"
-     class="logo"
-     alt="ROWE Tech Support">
+<img
+    src="rowe-logo.png"
+    class="logo"
+    alt="ROWE Tech Support"
+>
 
 <div class="subtitle">
 AUTOMATIC DOOR TECHNICAL REFERENCE
 </div>
 
-<div class="search">
+<div class="search-box">
 
 <input
-    id="searchBox"
+    id="searchInput"
     type="search"
     placeholder="Search manufacturer, model, or manual..."
+    autocomplete="off"
 >
 
-<button class="blue" onclick="searchLibrary()">
+<button
+    class="blue-button"
+    onclick="runSearch()"
+>
 SEARCH
 </button>
 
@@ -237,349 +419,1308 @@ SEARCH
 </header>
 
 
-<main id="home">
+<!-- HOME -->
 
-<h2>BROWSE BY MANUFACTURER</h2>
+<section
+    id="homeScreen"
+    class="screen active"
+>
 
-<div class="manufacturers" id="manufacturerList"></div>
-
-<div class="info">
-
-<strong>LIVE TECHNICAL LIBRARY</strong>
-
-<br><br>
-
-Browse the current manufacturer directories and open the
-original manuals directly from their source location.
-
-<br><br>
-
-<a
-class="source-button blue"
-target="_blank"
-href="https://www.addisonautomatics.com/wp-content/uploads/manuals/">
-
-OPEN COMPLETE SOURCE LIBRARY
-
-</a>
-
+<div class="section-title">
+BROWSE BY MANUFACTURER
 </div>
 
-</main>
+<div
+    id="manufacturerGrid"
+    class="manufacturer-grid"
+></div>
 
+<div class="info-box">
 
-<section id="searchResults">
+<div class="info-title">
+LIVE MANUAL LIBRARY
+</div>
 
-<button onclick="goHome()">
-← BACK
-</button>
+Browse manufacturers and their actual folders and files
+using the ROWE Tech Support interface.
 
-<h2>SEARCH</h2>
+<br><br>
 
-<div id="results"></div>
+The final PDF opens from its original source location.
+
+</div>
 
 </section>
 
-</div>
 
+<!-- LIBRARY -->
 
-<div class="library" id="library">
+<section
+    id="libraryScreen"
+    class="screen"
+>
 
-<div class="library-header">
+<div class="topbar">
 
-<button onclick="closeLibrary()">
+<button
+    class="back-button"
+    onclick="goBack()"
+>
 ← BACK
 </button>
 
-<div class="library-title" id="libraryTitle">
-MANUAL LIBRARY
+<div
+    id="pageTitle"
+    class="page-title"
+>
+LIBRARY
 </div>
-
-<a
-id="openSource"
-class="source-button"
-target="_blank">
-
-OPEN
-
-</a>
 
 </div>
 
-<iframe id="libraryFrame"></iframe>
+<div
+    id="breadcrumb"
+    class="breadcrumb"
+></div>
+
+<div
+    id="libraryContent"
+>
+</div>
+
+</section>
+
+
+<!-- SEARCH -->
+
+<section
+    id="searchScreen"
+    class="screen"
+>
+
+<div class="topbar">
+
+<button
+    class="back-button"
+    onclick="showHome()"
+>
+← BACK
+</button>
+
+<div class="page-title">
+SEARCH RESULTS
+</div>
+
+</div>
+
+<div
+    id="searchStatus"
+    class="notice"
+>
+Searching the live manual library...
+</div>
+
+<br>
+
+<div
+    id="searchResults"
+    class="search-results"
+></div>
+
+</section>
+
+
+<footer>
+ROWE Tech Support • Independent technical reference
+</footer>
 
 </div>
 
 
 <script>
 
+/*
+=========================================================
+ROWE TECH SUPPORT
+LIVE DIRECTORY GUI
+=========================================================
+*/
+
 const ROOT =
 "https://www.addisonautomatics.com/wp-content/uploads/manuals/";
 
+const PROXY =
+"https://r.jina.ai/http://www.addisonautomatics.com/wp-content/uploads/manuals/";
+
 const manufacturers = [
 
-"BEA",
-"Besam",
-"Detex",
-"DOM",
-"Dorma",
-"Gildor",
-"Horton",
-"Hunter-Entrematic",
-"KM",
-"LCN",
-"Motion Access",
-"Nabco_GyroTech",
-"Norton",
-"Optex",
-"Record",
-"Stanley",
-"TJ084",
-"Tormax",
-"Tucker"
+    "BEA",
+    "Besam",
+    "Detex",
+    "DOM",
+    "Dorma",
+    "Gildor",
+    "Horton",
+    "Hunter-Entrematic",
+    "KM",
+    "LCN",
+    "Motion Access",
+    "Nabco_GyroTech",
+    "Norton",
+    "Optex",
+    "Record",
+    "Stanley",
+    "TJ084",
+    "Tormax",
+    "Tucker"
 
 ];
 
 
-function escapeHTML(text) {
+/*
+---------------------------------------------------------
+STATE
+---------------------------------------------------------
+*/
 
-return text
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+let historyStack = [];
 
-}
+let currentPath = ROOT;
 
+let currentTitle = "LIBRARY";
 
-function makeURL(name) {
-
-return ROOT +
-encodeURIComponent(name) +
-"/";
-
-}
+const pageCache = {};
 
 
-function loadManufacturers() {
+/*
+---------------------------------------------------------
+HTML ESCAPE
+---------------------------------------------------------
+*/
 
-const list =
-document.getElementById("manufacturerList");
+function escapeHTML(value) {
 
-list.innerHTML = "";
-
-manufacturers.forEach(function(name) {
-
-const button =
-document.createElement("button");
-
-button.className =
-"manufacturer";
-
-button.innerHTML =
-'<span class="icon">▱</span>' +
-'<span>' +
-escapeHTML(name) +
-'</span>' +
-'<span class="arrow">›</span>';
-
-button.onclick = function() {
-
-openLibrary(
-name,
-makeURL(name)
-);
-
-};
-
-list.appendChild(button);
-
-});
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
 
 
-function openLibrary(name,url) {
+/*
+---------------------------------------------------------
+URL ENCODING
+---------------------------------------------------------
+*/
 
-document.getElementById(
-"libraryTitle"
-).textContent =
-name + " Library";
+function makePath(base, name) {
 
-document.getElementById(
-"openSource"
-).href = url;
-
-document.getElementById(
-"libraryFrame"
-).src = url;
-
-document.getElementById(
-"library"
-).style.display = "block";
-
-document.body.style.overflow =
-"hidden";
+    return base +
+        encodeURIComponent(name) +
+        "/";
 
 }
 
 
-function closeLibrary() {
+/*
+---------------------------------------------------------
+SHOW SCREEN
+---------------------------------------------------------
+*/
 
-document.getElementById(
-"libraryFrame"
-).src =
-"about:blank";
+function showScreen(id) {
 
-document.getElementById(
-"library"
-).style.display =
-"none";
+    document
+        .querySelectorAll(".screen")
+        .forEach(function(screen) {
 
-document.body.style.overflow =
-"";
+            screen.classList.remove("active");
 
-}
+        });
 
-
-function goHome() {
-
-document.getElementById(
-"searchResults"
-).style.display =
-"none";
-
-document.getElementById(
-"home"
-).style.display =
-"block";
+    document
+        .getElementById(id)
+        .classList.add("active");
 
 }
 
 
-function searchLibrary() {
+/*
+---------------------------------------------------------
+HOME
+---------------------------------------------------------
+*/
 
-const query =
-document.getElementById(
-"searchBox"
-).value.trim();
+function showHome() {
 
-if (!query) return;
+    historyStack = [];
 
+    showScreen("homeScreen");
 
-document.getElementById(
-"home"
-).style.display =
-"none";
-
-document.getElementById(
-"searchResults"
-).style.display =
-"block";
-
-
-const results =
-document.getElementById(
-"results"
-);
-
-results.innerHTML = "";
-
-
-const q =
-query.toLowerCase();
-
-
-const matches =
-manufacturers.filter(function(name) {
-
-return name.toLowerCase().includes(q);
-
-});
-
-
-matches.forEach(function(name) {
-
-const result =
-document.createElement("a");
-
-result.className =
-"result";
-
-result.href = "#";
-
-result.innerHTML =
-"▱ " +
-escapeHTML(name) +
-"<small>Open manufacturer library</small>";
-
-result.onclick =
-function(event) {
-
-event.preventDefault();
-
-openLibrary(
-name,
-makeURL(name)
-);
-
-};
-
-results.appendChild(result);
-
-});
-
-
-const webSearch =
-document.createElement("a");
-
-webSearch.className =
-"result";
-
-webSearch.target =
-"_blank";
-
-webSearch.href =
-"https://www.google.com/search?q=" +
-encodeURIComponent(
-'site:addisonautomatics.com/wp-content/uploads/manuals "' +
-query +
-'"'
-);
-
-webSearch.innerHTML =
-"🔎 Search Complete Manual Library" +
-"<small>" +
-escapeHTML(query) +
-"</small>";
-
-results.appendChild(webSearch);
-
-
-if (!matches.length) {
-
-const message =
-document.createElement("div");
-
-message.className =
-"info";
-
-message.innerHTML =
-"No manufacturer match found.<br><br>" +
-"Use the search result below to search the complete live manual library.";
-
-results.insertBefore(
-message,
-results.firstChild
-);
-
-}
+    window.scrollTo(0, 0);
 
 }
 
 
-loadManufacturers();
+/*
+---------------------------------------------------------
+MANUFACTURER BUTTONS
+---------------------------------------------------------
+*/
+
+function renderManufacturers() {
+
+    const grid =
+        document.getElementById(
+            "manufacturerGrid"
+        );
+
+    grid.innerHTML = "";
+
+    manufacturers.forEach(function(name) {
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "manufacturer-button";
+
+        button.innerHTML =
+
+            '<span class="folder-icon">▱</span>' +
+
+            '<span>' +
+            escapeHTML(name) +
+            '</span>' +
+
+            '<span class="arrow">›</span>';
+
+        button.onclick = function() {
+
+            openDirectory(
+                name,
+                makePath(ROOT, name),
+                true
+            );
+
+        };
+
+        grid.appendChild(button);
+
+    });
+
+}
+
+
+/*
+---------------------------------------------------------
+DIRECTORY FETCH
+---------------------------------------------------------
+*/
+
+async function fetchDirectory(url) {
+
+    if (pageCache[url]) {
+
+        return pageCache[url];
+
+    }
+
+
+    const proxyURL =
+        "https://r.jina.ai/http://" +
+        url.replace(/^https?:\/\//, "");
+
+
+    try {
+
+        const response =
+            await fetch(proxyURL, {
+                method: "GET"
+            });
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Directory unavailable"
+            );
+
+        }
+
+
+        const text =
+            await response.text();
+
+
+        const links =
+            parseDirectory(text, url);
+
+
+        pageCache[url] =
+            links;
+
+
+        return links;
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        return null;
+
+    }
+
+}
+
+
+/*
+---------------------------------------------------------
+PARSE DIRECTORY
+---------------------------------------------------------
+*/
+
+function parseDirectory(text, baseURL) {
+
+    const results = [];
+
+    const seen = new Set();
+
+
+    /*
+    Jina normally returns markdown links.
+    */
+
+    const markdownRegex =
+        /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g;
+
+
+    let match;
+
+
+    while (
+        (match =
+            markdownRegex.exec(text))
+        !== null
+    ) {
+
+        const name =
+            cleanName(match[1]);
+
+        const url =
+            cleanURL(match[2]);
+
+
+        if (!name) continue;
+
+
+        if (
+            name === "To Parent Directory" ||
+            name === ".."
+        ) {
+            continue;
+        }
+
+
+        if (seen.has(url)) continue;
+
+
+        seen.add(url);
+
+
+        results.push({
+
+            name: name,
+
+            url: url,
+
+            folder:
+                url.endsWith("/"),
+
+            pdf:
+                /\.pdf$/i.test(url)
+
+        });
+
+    }
+
+
+    /*
+    Backup parser for ordinary URLs.
+    */
+
+    if (!results.length) {
+
+        const urlRegex =
+            /https?:\/\/[^\s"'<>]+/g;
+
+        const urls =
+            text.match(urlRegex) || [];
+
+
+        urls.forEach(function(raw) {
+
+            const url =
+                cleanURL(raw);
+
+
+            if (
+                !url.includes(
+                    "/wp-content/uploads/manuals/"
+                )
+            ) {
+                return;
+            }
+
+
+            const last =
+                url.split("/").filter(Boolean).pop();
+
+
+            if (!last) return;
+
+
+            const name =
+                decodeURIComponent(last);
+
+
+            if (
+                name === "manuals" ||
+                name === "Parent"
+            ) {
+                return;
+            }
+
+
+            if (seen.has(url)) return;
+
+
+            seen.add(url);
+
+
+            results.push({
+
+                name: name,
+
+                url: url,
+
+                folder:
+                    url.endsWith("/"),
+
+                pdf:
+                    /\.pdf$/i.test(url)
+
+            });
+
+        });
+
+    }
+
+
+    results.sort(function(a, b) {
+
+        if (
+            a.folder &&
+            !b.folder
+        ) {
+            return -1;
+        }
+
+        if (
+            !a.folder &&
+            b.folder
+        ) {
+            return 1;
+        }
+
+        return a.name.localeCompare(
+            b.name,
+            undefined,
+            {
+                numeric: true,
+                sensitivity: "base"
+            }
+        );
+
+    });
+
+
+    return results;
+
+}
+
+
+/*
+---------------------------------------------------------
+CLEAN URL
+---------------------------------------------------------
+*/
+
+function cleanURL(url) {
+
+    return url
+        .replace(/&amp;/g, "&")
+        .replace(/[),.]+$/, "");
+
+}
+
+
+/*
+---------------------------------------------------------
+CLEAN NAME
+---------------------------------------------------------
+*/
+
+function cleanName(name) {
+
+    return name
+        .replace(/\[.*?\]/g, "")
+        .replace(/&amp;/g, "&")
+        .trim();
+
+}
+
+
+/*
+---------------------------------------------------------
+OPEN DIRECTORY
+---------------------------------------------------------
+*/
+
+async function openDirectory(
+    title,
+    url,
+    pushHistory
+) {
+
+    if (pushHistory) {
+
+        historyStack.push({
+
+            title:
+                currentTitle,
+
+            url:
+                currentPath
+
+        });
+
+    }
+
+
+    currentTitle =
+        title;
+
+    currentPath =
+        url;
+
+
+    document
+        .getElementById(
+            "pageTitle"
+        )
+        .textContent =
+        title;
+
+
+    document
+        .getElementById(
+            "breadcrumb"
+        )
+        .textContent =
+        buildBreadcrumb(url);
+
+
+    const content =
+        document.getElementById(
+            "libraryContent"
+        );
+
+
+    content.innerHTML =
+
+        '<div class="loading">' +
+
+        '<div class="spinner"></div>' +
+
+        'Loading library...' +
+
+        '</div>';
+
+
+    showScreen(
+        "libraryScreen"
+    );
+
+
+    window.scrollTo(0, 0);
+
+
+    const items =
+        await fetchDirectory(url);
+
+
+    if (!items) {
+
+        content.innerHTML =
+
+            '<div class="notice">' +
+
+            '<strong>Library could not be loaded.</strong>' +
+
+            '<br><br>' +
+
+            'The source directory may temporarily block automated access. ' +
+
+            'Use the button below to open the original manufacturer directory.' +
+
+            '<br><br>' +
+
+            '<a class="blue-button" ' +
+
+            'target="_blank" ' +
+
+            'rel="noopener" ' +
+
+            'href="' +
+            escapeHTML(url) +
+            '">' +
+
+            'OPEN SOURCE DIRECTORY' +
+
+            '</a>' +
+
+            '</div>';
+
+        return;
+
+    }
+
+
+    renderDirectory(
+        items,
+        content
+    );
+
+}
+
+
+/*
+---------------------------------------------------------
+RENDER DIRECTORY
+---------------------------------------------------------
+*/
+
+function renderDirectory(
+    items,
+    container
+) {
+
+    container.innerHTML = "";
+
+
+    if (!items.length) {
+
+        container.innerHTML =
+
+            '<div class="notice">' +
+
+            '<strong>No files were found.</strong>' +
+
+            '<br><br>' +
+
+            'This directory appears to be empty.' +
+
+            '</div>';
+
+        return;
+
+    }
+
+
+    const list =
+        document.createElement("div");
+
+    list.className =
+        "library-list";
+
+
+    items.forEach(function(item) {
+
+        const button =
+            document.createElement("button");
+
+
+        button.className =
+            "item-button " +
+            (
+                item.folder
+                ? "folder-item"
+                : "pdf-item"
+            );
+
+
+        const icon =
+            item.folder
+            ? "📁"
+            : "📄";
+
+
+        const type =
+            item.folder
+            ? "FOLDER"
+            : "PDF DOCUMENT";
+
+
+        button.innerHTML =
+
+            '<span class="item-icon">' +
+            icon +
+            '</span>' +
+
+            '<span class="item-name">' +
+
+            escapeHTML(item.name) +
+
+            '<span class="item-type">' +
+            type +
+            '</span>' +
+
+            '</span>' +
+
+            '<span class="arrow">›</span>';
+
+
+        button.onclick =
+            function() {
+
+                if (item.folder) {
+
+                    openDirectory(
+                        item.name,
+                        item.url,
+                        true
+                    );
+
+                }
+
+                else {
+
+                    /*
+                    FINAL STEP:
+                    Open the original PDF normally.
+                    */
+
+                    window.open(
+                        item.url,
+                        "_blank",
+                        "noopener"
+                    );
+
+                }
+
+            };
+
+
+        list.appendChild(
+            button
+        );
+
+    });
+
+
+    container.appendChild(
+        list
+    );
+
+}
+
+
+/*
+---------------------------------------------------------
+BREADCRUMB
+---------------------------------------------------------
+*/
+
+function buildBreadcrumb(url) {
+
+    const prefix =
+        ROOT;
+
+
+    if (
+        !url.startsWith(prefix)
+    ) {
+
+        return "LIBRARY";
+
+    }
+
+
+    const relative =
+        url.substring(
+            prefix.length
+        );
+
+
+    const parts =
+        relative
+            .split("/")
+            .filter(Boolean)
+            .map(function(part) {
+
+                try {
+
+                    return decodeURIComponent(
+                        part
+                    );
+
+                }
+
+                catch {
+
+                    return part;
+
+                }
+
+            });
+
+
+    return [
+        "ROWE",
+        ...parts
+    ].join("  /  ");
+
+}
+
+
+/*
+---------------------------------------------------------
+BACK
+---------------------------------------------------------
+*/
+
+function goBack() {
+
+    if (!historyStack.length) {
+
+        showHome();
+
+        return;
+
+    }
+
+
+    const previous =
+        historyStack.pop();
+
+
+    openDirectory(
+        previous.title,
+        previous.url,
+        false
+    );
+
+}
+
+
+/*
+---------------------------------------------------------
+SEARCH
+---------------------------------------------------------
+*/
+
+async function runSearch() {
+
+    const query =
+        document
+            .getElementById(
+                "searchInput"
+            )
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    if (!query) {
+
+        return;
+
+    }
+
+
+    showScreen(
+        "searchScreen"
+    );
+
+
+    const status =
+        document.getElementById(
+            "searchStatus"
+        );
+
+
+    const resultBox =
+        document.getElementById(
+            "searchResults"
+        );
+
+
+    status.innerHTML =
+        '<strong>SEARCHING LIVE LIBRARY</strong>' +
+        '<br><br>' +
+        'Checking manufacturer directories. This may take a moment the first time.';
+
+
+    resultBox.innerHTML = "";
+
+
+    /*
+    Search manufacturer names immediately.
+    */
+
+    manufacturers
+        .filter(function(name) {
+
+            return name
+                .toLowerCase()
+                .includes(query);
+
+        })
+        .forEach(function(name) {
+
+            addSearchResult(
+
+                resultBox,
+
+                name,
+
+                "Manufacturer",
+
+                makePath(
+                    ROOT,
+                    name
+                ),
+
+                true
+
+            );
+
+        });
+
+
+    /*
+    Search live directories.
+    */
+
+    let matches = 0;
+
+
+    for (
+        const manufacturer
+        of manufacturers
+    ) {
+
+        const url =
+            makePath(
+                ROOT,
+                manufacturer
+            );
+
+
+        const found =
+            await searchDirectory(
+                url,
+                manufacturer,
+                query,
+                0
+            );
+
+
+        matches += found;
+
+        status.innerHTML =
+            '<strong>SEARCHING LIVE LIBRARY</strong>' +
+            '<br><br>' +
+            'Checked: ' +
+            escapeHTML(manufacturer);
+
+    }
+
+
+    if (
+        matches === 0 &&
+        resultBox.children.length === 0
+    ) {
+
+        resultBox.innerHTML =
+
+            '<div class="notice">' +
+
+            '<strong>No matching manual found.</strong>' +
+
+            '<br><br>' +
+
+            'Try searching for a manufacturer, model number, ' +
+
+            'or a word from the manual title.' +
+
+            '</div>';
+
+    }
+
+
+    status.innerHTML =
+
+        '<strong>SEARCH COMPLETE</strong>' +
+
+        '<br><br>' +
+
+        'Matching folders and documents are shown below.';
+
+}
+
+
+/*
+---------------------------------------------------------
+RECURSIVE SEARCH
+---------------------------------------------------------
+*/
+
+async function searchDirectory(
+    url,
+    pathName,
+    query,
+    depth
+) {
+
+    /*
+    Prevent runaway crawling.
+    */
+
+    if (depth > 3) {
+
+        return 0;
+
+    }
+
+
+    const items =
+        await fetchDirectory(url);
+
+
+    if (!items) {
+
+        return 0;
+
+    }
+
+
+    let count = 0;
+
+
+    for (
+        const item
+        of items
+    ) {
+
+        const itemPath =
+            pathName +
+            " / " +
+            item.name;
+
+
+        if (
+            item.name
+                .toLowerCase()
+                .includes(query)
+        ) {
+
+            addSearchResult(
+
+                document.getElementById(
+                    "searchResults"
+                ),
+
+                item.name,
+
+                itemPath,
+
+                item.url,
+
+                item.folder
+
+            );
+
+
+            count++;
+
+        }
+
+
+        /*
+        Recursively search folders.
+        */
+
+        if (item.folder) {
+
+            const childCount =
+                await searchDirectory(
+                    item.url,
+                    itemPath,
+                    query,
+                    depth + 1
+                );
+
+
+            count += childCount;
+
+        }
+
+    }
+
+
+    return count;
+
+}
+
+
+/*
+---------------------------------------------------------
+ADD SEARCH RESULT
+---------------------------------------------------------
+*/
+
+function addSearchResult(
+    container,
+    title,
+    path,
+    url,
+    folder
+) {
+
+    /*
+    Avoid duplicate results.
+    */
+
+    const existing =
+        Array.from(
+            container.children
+        )
+        .some(function(element) {
+
+            return element.dataset.url === url;
+
+        });
+
+
+    if (existing) {
+
+        return;
+
+    }
+
+
+    const result =
+        document.createElement("button");
+
+
+    result.className =
+        "search-result";
+
+
+    result.dataset.url =
+        url;
+
+
+    result.innerHTML =
+
+        '<div class="search-result-title">' +
+
+        (folder ? "📁 " : "📄 ") +
+
+        escapeHTML(title) +
+
+        '</div>' +
+
+        '<div class="search-result-path">' +
+
+        escapeHTML(path) +
+
+        '</div>';
+
+
+    result.onclick =
+        function() {
+
+            if (folder) {
+
+                openDirectory(
+                    title,
+                    url,
+                    true
+                );
+
+            }
+
+            else {
+
+                window.open(
+                    url,
+                    "_blank",
+                    "noopener"
+                );
+
+            }
+
+        };
+
+
+    container.appendChild(
+        result
+    );
+
+}
+
+
+/*
+---------------------------------------------------------
+ENTER KEY SEARCH
+---------------------------------------------------------
+*/
+
+document
+    .getElementById(
+        "searchInput"
+    )
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                runSearch();
+
+            }
+
+        }
+    );
+
+
+/*
+---------------------------------------------------------
+START APP
+---------------------------------------------------------
+*/
+
+renderManufacturers();
 
 </script>
 
