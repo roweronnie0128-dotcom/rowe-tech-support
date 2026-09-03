@@ -2,385 +2,326 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#080a0d">
-
 <title>ROWE Tech Support</title>
 
 <style>
+*{box-sizing:border-box}
 
-* {
-    box-sizing: border-box;
+html,body{
+margin:0;
+padding:0;
+background:#080a0d;
+color:#f2f4f6;
+font-family:Arial,Helvetica,sans-serif
 }
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    background: #080a0d;
-    color: #f2f4f6;
-    font-family: Arial, Helvetica, sans-serif;
+body{min-height:100vh}
+
+.app{
+width:100%;
+max-width:1100px;
+margin:auto;
+padding:18px
 }
 
-body {
-    min-height: 100vh;
+header{
+text-align:center;
+padding:10px 0 20px
 }
 
-button,
-input {
-    font-family: inherit;
+.logo{
+width:100%;
+max-width:520px;
+max-height:190px;
+object-fit:contain
 }
 
-button {
-    cursor: pointer;
+.subtitle{
+color:#9ca5ae;
+font-size:12px;
+letter-spacing:2px;
+margin-top:8px
 }
 
-.app {
-    width: 100%;
-    max-width: 1100px;
-    margin: auto;
-    padding: 18px;
+.search-box{
+display:flex;
+gap:9px;
+background:#15191e;
+border:1px solid #39434d;
+border-radius:14px;
+padding:9px;
+margin-top:18px
 }
 
-/* HEADER */
-
-header {
-    text-align: center;
-    padding: 10px 0 20px;
+.search-box input{
+flex:1;
+min-width:0;
+border:0;
+outline:0;
+background:transparent;
+color:white;
+font-size:16px;
+padding:11px
 }
 
-.logo {
-    width: 100%;
-    max-width: 520px;
-    max-height: 190px;
-    object-fit: contain;
+button{
+font-family:inherit;
+cursor:pointer
 }
 
-.subtitle {
-    color: #9ca5ae;
-    font-size: 12px;
-    letter-spacing: 2px;
-    margin-top: 8px;
+.blue-button{
+background:#1677d2;
+border:1px solid #318de0;
+color:white;
+border-radius:10px;
+padding:12px 17px;
+font-weight:bold;
+font-size:15px
 }
 
-/* SEARCH */
-
-.search-box {
-    display: flex;
-    gap: 9px;
-    background: #15191e;
-    border: 1px solid #39434d;
-    border-radius: 14px;
-    padding: 9px;
-    margin-top: 18px;
+.section-title{
+color:#b8c0c8;
+font-size:17px;
+letter-spacing:1px;
+margin:18px 0 12px
 }
 
-.search-box input {
-    flex: 1;
-    min-width: 0;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: white;
-    font-size: 16px;
-    padding: 11px;
+.manufacturer-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px
 }
 
-.blue-button {
-    background: #1677d2;
-    border: 1px solid #318de0;
-    color: white;
-    border-radius: 10px;
-    padding: 12px 17px;
-    font-weight: bold;
-    font-size: 15px;
-}
-
-/* HEADINGS */
-
-.section-title {
-    color: #b8c0c8;
-    font-size: 17px;
-    letter-spacing: 1px;
-    margin: 18px 0 12px;
-}
-
-/* MANUFACTURERS */
-
-.manufacturer-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
-.manufacturer-button {
-    width: 100%;
-    min-height: 66px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-align: left;
-
-    background: #252c33;
-    border: 1px solid #46515c;
-    color: white;
-    border-radius: 11px;
-    padding: 13px;
-    font-size: 15px;
-    font-weight: bold;
+.manufacturer-button{
+width:100%;
+min-height:66px;
+display:flex;
+align-items:center;
+gap:12px;
+text-align:left;
+background:#252c33;
+border:1px solid #46515c;
+color:white;
+border-radius:11px;
+padding:13px;
+font-size:15px;
+font-weight:bold
 }
 
 .manufacturer-button:hover,
-.item-button:hover {
-    border-color: #318de0;
-    background: #2b333b;
+.item-button:hover,
+.search-result:hover{
+border-color:#318de0;
+background:#2b333b
 }
 
-.folder-icon {
-    color: #48a5ff;
-    font-size: 23px;
+.folder-icon{
+color:#48a5ff;
+font-size:23px
 }
 
-.arrow {
-    margin-left: auto;
-    color: #8d98a3;
-    font-size: 22px;
+.arrow{
+margin-left:auto;
+color:#8d98a3;
+font-size:22px
 }
 
-/* INFO */
-
-.info-box {
-    margin-top: 20px;
-    padding: 17px;
-    border-radius: 14px;
-    border: 1px solid #39434d;
-    background: #15191e;
-    color: #9ca5ae;
-    line-height: 1.5;
+.info-box{
+margin-top:20px;
+padding:17px;
+border-radius:14px;
+border:1px solid #39434d;
+background:#15191e;
+color:#9ca5ae;
+line-height:1.5
 }
 
-.info-title {
-    color: #48a5ff;
-    font-weight: bold;
+.info-title{
+color:#48a5ff;
+font-weight:bold
 }
 
-/* LIBRARY SCREEN */
-
-.screen {
-    display: none;
+.screen{
+display:none
 }
 
-.screen.active {
-    display: block;
+.screen.active{
+display:block
 }
 
-.topbar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
+.topbar{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:16px
 }
 
-.back-button {
-    background: #252c33;
-    border: 1px solid #46515c;
-    color: white;
-    border-radius: 10px;
-    padding: 11px 14px;
-    font-weight: bold;
-    font-size: 14px;
+.back-button{
+background:#252c33;
+border:1px solid #46515c;
+color:white;
+border-radius:10px;
+padding:11px 14px;
+font-weight:bold;
+font-size:14px
 }
 
-.page-title {
-    flex: 1;
-    font-size: 20px;
-    font-weight: bold;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.page-title{
+flex:1;
+font-size:20px;
+font-weight:bold;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap
 }
 
-/* BREADCRUMB */
-
-.breadcrumb {
-    background: #11151a;
-    border: 1px solid #303942;
-    border-radius: 10px;
-    padding: 11px 13px;
-    margin-bottom: 12px;
-    color: #9ca5ae;
-    font-size: 13px;
-    overflow-x: auto;
-    white-space: nowrap;
+.breadcrumb{
+background:#11151a;
+border:1px solid #303942;
+border-radius:10px;
+padding:11px 13px;
+margin-bottom:12px;
+color:#9ca5ae;
+font-size:13px;
+overflow-x:auto;
+white-space:nowrap
 }
 
-/* LOADING */
-
-.loading {
-    text-align: center;
-    padding: 35px 15px;
-    color: #9ca5ae;
+.library-list{
+display:grid;
+gap:9px
 }
 
-.spinner {
-    width: 30px;
-    height: 30px;
-    border: 3px solid #303840;
-    border-top-color: #318de0;
-    border-radius: 50%;
-    margin: 0 auto 12px;
-    animation: spin 0.8s linear infinite;
+.item-button{
+width:100%;
+min-height:64px;
+display:flex;
+align-items:center;
+gap:13px;
+text-align:left;
+background:#20262c;
+border:1px solid #39444e;
+border-radius:11px;
+padding:13px;
+color:white
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+.item-icon{
+width:32px;
+text-align:center;
+font-size:22px
 }
 
-/* FILE/FOLDER LIST */
-
-.library-list {
-    display: grid;
-    gap: 9px;
+.folder-item .item-icon{
+color:#48a5ff
 }
 
-.item-button {
-    width: 100%;
-    min-height: 62px;
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    text-align: left;
-
-    background: #20262c;
-    border: 1px solid #39444e;
-    border-radius: 11px;
-    padding: 13px;
-    color: white;
+.pdf-item .item-icon{
+color:#e2e5e8
 }
 
-.item-icon {
-    width: 32px;
-    text-align: center;
-    font-size: 22px;
+.item-name{
+flex:1;
+font-size:15px;
+line-height:1.3;
+word-break:break-word
 }
 
-.item-name {
-    flex: 1;
-    font-size: 15px;
-    line-height: 1.3;
-    word-break: break-word;
+.item-type{
+display:block;
+color:#7f8a95;
+font-size:11px;
+margin-top:4px
 }
 
-.item-type {
-    display: block;
-    color: #7f8a95;
-    font-size: 11px;
-    margin-top: 4px;
+.loading{
+text-align:center;
+padding:40px 15px;
+color:#9ca5ae
 }
 
-.folder-item .item-icon {
-    color: #48a5ff;
+.spinner{
+width:30px;
+height:30px;
+border:3px solid #303840;
+border-top-color:#318de0;
+border-radius:50%;
+margin:0 auto 12px;
+animation:spin .8s linear infinite
 }
 
-.pdf-item .item-icon {
-    color: #d4d8dc;
+@keyframes spin{
+to{transform:rotate(360deg)}
 }
 
-.external-item .item-icon {
-    color: #48a5ff;
+.notice{
+padding:17px;
+background:#15191e;
+border:1px solid #39434d;
+border-radius:13px;
+color:#9ca5ae;
+line-height:1.5
 }
 
-/* SEARCH RESULTS */
-
-.search-results {
-    display: grid;
-    gap: 9px;
+.notice strong{
+color:#48a5ff
 }
 
-.search-result {
-    display: block;
-    width: 100%;
-    background: #20262c;
-    border: 1px solid #39444e;
-    border-radius: 11px;
-    padding: 14px;
-    color: white;
-    text-decoration: none;
+.search-results{
+display:grid;
+gap:9px
 }
 
-.search-result-title {
-    font-weight: bold;
+.search-result{
+width:100%;
+text-align:left;
+background:#20262c;
+border:1px solid #39444e;
+border-radius:11px;
+padding:14px;
+color:white
 }
 
-.search-result-path {
-    color: #7f8a95;
-    font-size: 12px;
-    margin-top: 6px;
+.result-title{
+font-weight:bold
 }
 
-/* NOTICE */
-
-.notice {
-    padding: 16px;
-    background: #15191e;
-    border: 1px solid #39434d;
-    border-radius: 13px;
-    color: #9ca5ae;
-    line-height: 1.5;
+.result-path{
+color:#7f8a95;
+font-size:12px;
+margin-top:6px
 }
 
-.notice strong {
-    color: #48a5ff;
+footer{
+text-align:center;
+color:#68727c;
+font-size:11px;
+padding:30px 10px 10px
 }
 
-/* FOOTER */
-
-footer {
-    text-align: center;
-    color: #68727c;
-    font-size: 11px;
-    padding: 30px 10px 10px;
+@media(max-width:700px){
+.manufacturer-grid{
+grid-template-columns:repeat(2,1fr)
+}
 }
 
-/* MOBILE */
-
-@media (max-width: 700px) {
-
-    .manufacturer-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
+@media(max-width:460px){
+.manufacturer-grid{
+grid-template-columns:1fr
 }
 
-@media (max-width: 460px) {
-
-    .manufacturer-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .search-box {
-        flex-direction: column;
-    }
-
-    .search-box .blue-button {
-        width: 100%;
-    }
-
-    .topbar {
-        gap: 7px;
-    }
-
-    .page-title {
-        font-size: 17px;
-    }
-
+.search-box{
+flex-direction:column
 }
 
+.search-box .blue-button{
+width:100%
+}
+}
 </style>
 </head>
-
 
 <body>
 
@@ -389,9 +330,9 @@ footer {
 <header>
 
 <img
-    src="rowe-logo.png"
-    class="logo"
-    alt="ROWE Tech Support"
+src="rowe-logo.png"
+class="logo"
+alt="ROWE Tech Support"
 >
 
 <div class="subtitle">
@@ -401,15 +342,15 @@ AUTOMATIC DOOR TECHNICAL REFERENCE
 <div class="search-box">
 
 <input
-    id="searchInput"
-    type="search"
-    placeholder="Search manufacturer, model, or manual..."
-    autocomplete="off"
+id="searchInput"
+type="search"
+placeholder="Search manufacturer, model, or manual..."
+autocomplete="off"
 >
 
 <button
-    class="blue-button"
-    onclick="runSearch()"
+class="blue-button"
+onclick="runSearch()"
 >
 SEARCH
 </button>
@@ -419,11 +360,9 @@ SEARCH
 </header>
 
 
-<!-- HOME -->
-
 <section
-    id="homeScreen"
-    class="screen active"
+id="homeScreen"
+class="screen active"
 >
 
 <div class="section-title">
@@ -431,47 +370,48 @@ BROWSE BY MANUFACTURER
 </div>
 
 <div
-    id="manufacturerGrid"
-    class="manufacturer-grid"
+id="manufacturerGrid"
+class="manufacturer-grid"
 ></div>
 
 <div class="info-box">
 
 <div class="info-title">
-LIVE MANUAL LIBRARY
+LIVE TECHNICAL LIBRARY
 </div>
 
-Browse manufacturers and their actual folders and files
-using the ROWE Tech Support interface.
+<br>
+
+Browse the actual manufacturer folders and documents
+through the ROWE Tech Support interface.
 
 <br><br>
 
-The final PDF opens from its original source location.
+The ROWE interface stays on screen until you select
+the final PDF document.
 
 </div>
 
 </section>
 
 
-<!-- LIBRARY -->
-
 <section
-    id="libraryScreen"
-    class="screen"
+id="libraryScreen"
+class="screen"
 >
 
 <div class="topbar">
 
 <button
-    class="back-button"
-    onclick="goBack()"
+class="back-button"
+onclick="goBack()"
 >
 ← BACK
 </button>
 
 <div
-    id="pageTitle"
-    class="page-title"
+id="pageTitle"
+class="page-title"
 >
 LIBRARY
 </div>
@@ -479,30 +419,25 @@ LIBRARY
 </div>
 
 <div
-    id="breadcrumb"
-    class="breadcrumb"
+id="breadcrumb"
+class="breadcrumb"
 ></div>
 
-<div
-    id="libraryContent"
->
-</div>
+<div id="libraryContent"></div>
 
 </section>
 
 
-<!-- SEARCH -->
-
 <section
-    id="searchScreen"
-    class="screen"
+id="searchScreen"
+class="screen"
 >
 
 <div class="topbar">
 
 <button
-    class="back-button"
-    onclick="showHome()"
+class="back-button"
+onclick="showHome()"
 >
 ← BACK
 </button>
@@ -514,17 +449,16 @@ SEARCH RESULTS
 </div>
 
 <div
-    id="searchStatus"
-    class="notice"
+id="searchStatus"
+class="notice"
 >
-Searching the live manual library...
 </div>
 
 <br>
 
 <div
-    id="searchResults"
-    class="search-results"
+id="searchResults"
+class="search-results"
 ></div>
 
 </section>
@@ -539,13 +473,6 @@ ROWE Tech Support • Independent technical reference
 
 <script>
 
-/*
-=========================================================
-ROWE TECH SUPPORT
-LIVE DIRECTORY GUI
-=========================================================
-*/
-
 const ROOT =
 "https://www.addisonautomatics.com/wp-content/uploads/manuals/";
 
@@ -554,1171 +481,1076 @@ const PROXY =
 
 const manufacturers = [
 
-    "BEA",
-    "Besam",
-    "Detex",
-    "DOM",
-    "Dorma",
-    "Gildor",
-    "Horton",
-    "Hunter-Entrematic",
-    "KM",
-    "LCN",
-    "Motion Access",
-    "Nabco_GyroTech",
-    "Norton",
-    "Optex",
-    "Record",
-    "Stanley",
-    "TJ084",
-    "Tormax",
-    "Tucker"
+"BEA",
+"Besam",
+"Detex",
+"DOM",
+"Dorma",
+"Gildor",
+"Horton",
+"Hunter-Entrematic",
+"KM",
+"LCN",
+"Motion Access",
+"Nabco_GyroTech",
+"Norton",
+"Optex",
+"Record",
+"Stanley",
+"TJ084",
+"Tormax",
+"Tucker"
 
 ];
 
 
-/*
----------------------------------------------------------
-STATE
----------------------------------------------------------
-*/
-
 let historyStack = [];
-
-let currentPath = ROOT;
 
 let currentTitle = "LIBRARY";
 
-const pageCache = {};
+let currentURL = ROOT;
+
+const cache = {};
 
 
-/*
----------------------------------------------------------
-HTML ESCAPE
----------------------------------------------------------
-*/
+/* --------------------------------------------------
+   ESCAPE HTML
+-------------------------------------------------- */
 
-function escapeHTML(value) {
+function esc(value){
 
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-/*
----------------------------------------------------------
-URL ENCODING
----------------------------------------------------------
-*/
-
-function makePath(base, name) {
-
-    return base +
-        encodeURIComponent(name) +
-        "/";
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
-/*
----------------------------------------------------------
-SHOW SCREEN
----------------------------------------------------------
-*/
+/* --------------------------------------------------
+   ENCODE PATH PART
+-------------------------------------------------- */
 
-function showScreen(id) {
+function pathURL(base,name){
 
-    document
-        .querySelectorAll(".screen")
-        .forEach(function(screen) {
-
-            screen.classList.remove("active");
-
-        });
-
-    document
-        .getElementById(id)
-        .classList.add("active");
+return base +
+encodeURIComponent(name) +
+"/";
 
 }
 
 
-/*
----------------------------------------------------------
-HOME
----------------------------------------------------------
-*/
-
-function showHome() {
-
-    historyStack = [];
-
-    showScreen("homeScreen");
-
-    window.scrollTo(0, 0);
-
-}
-
-
-/*
----------------------------------------------------------
-MANUFACTURER BUTTONS
----------------------------------------------------------
-*/
-
-function renderManufacturers() {
-
-    const grid =
-        document.getElementById(
-            "manufacturerGrid"
-        );
-
-    grid.innerHTML = "";
-
-    manufacturers.forEach(function(name) {
-
-        const button =
-            document.createElement("button");
-
-        button.className =
-            "manufacturer-button";
-
-        button.innerHTML =
-
-            '<span class="folder-icon">▱</span>' +
-
-            '<span>' +
-            escapeHTML(name) +
-            '</span>' +
-
-            '<span class="arrow">›</span>';
-
-        button.onclick = function() {
-
-            openDirectory(
-                name,
-                makePath(ROOT, name),
-                true
-            );
-
-        };
-
-        grid.appendChild(button);
-
-    });
-
-}
-
-
-/*
----------------------------------------------------------
-DIRECTORY FETCH
----------------------------------------------------------
-*/
-
-async function fetchDirectory(url) {
-
-    if (pageCache[url]) {
-
-        return pageCache[url];
-
-    }
-
-
-    const proxyURL =
-        "https://r.jina.ai/http://" +
-        url.replace(/^https?:\/\//, "");
-
-
-    try {
-
-        const response =
-            await fetch(proxyURL, {
-                method: "GET"
-            });
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Directory unavailable"
-            );
-
-        }
-
-
-        const text =
-            await response.text();
-
-
-        const links =
-            parseDirectory(text, url);
-
-
-        pageCache[url] =
-            links;
-
-
-        return links;
-
-    }
-
-    catch(error) {
-
-        console.error(error);
-
-        return null;
-
-    }
-
-}
-
-
-/*
----------------------------------------------------------
-PARSE DIRECTORY
----------------------------------------------------------
-*/
-
-function parseDirectory(text, baseURL) {
-
-    const results = [];
-
-    const seen = new Set();
-
-
-    /*
-    Jina normally returns markdown links.
-    */
-
-    const markdownRegex =
-        /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g;
-
-
-    let match;
-
-
-    while (
-        (match =
-            markdownRegex.exec(text))
-        !== null
-    ) {
-
-        const name =
-            cleanName(match[1]);
-
-        const url =
-            cleanURL(match[2]);
-
-
-        if (!name) continue;
-
-
-        if (
-            name === "To Parent Directory" ||
-            name === ".."
-        ) {
-            continue;
-        }
-
-
-        if (seen.has(url)) continue;
-
-
-        seen.add(url);
-
-
-        results.push({
-
-            name: name,
-
-            url: url,
-
-            folder:
-                url.endsWith("/"),
-
-            pdf:
-                /\.pdf$/i.test(url)
-
-        });
-
-    }
-
-
-    /*
-    Backup parser for ordinary URLs.
-    */
-
-    if (!results.length) {
-
-        const urlRegex =
-            /https?:\/\/[^\s"'<>]+/g;
-
-        const urls =
-            text.match(urlRegex) || [];
-
-
-        urls.forEach(function(raw) {
-
-            const url =
-                cleanURL(raw);
-
-
-            if (
-                !url.includes(
-                    "/wp-content/uploads/manuals/"
-                )
-            ) {
-                return;
-            }
-
-
-            const last =
-                url.split("/").filter(Boolean).pop();
-
-
-            if (!last) return;
-
-
-            const name =
-                decodeURIComponent(last);
-
-
-            if (
-                name === "manuals" ||
-                name === "Parent"
-            ) {
-                return;
-            }
-
-
-            if (seen.has(url)) return;
-
-
-            seen.add(url);
-
-
-            results.push({
-
-                name: name,
-
-                url: url,
-
-                folder:
-                    url.endsWith("/"),
-
-                pdf:
-                    /\.pdf$/i.test(url)
-
-            });
-
-        });
-
-    }
-
-
-    results.sort(function(a, b) {
-
-        if (
-            a.folder &&
-            !b.folder
-        ) {
-            return -1;
-        }
-
-        if (
-            !a.folder &&
-            b.folder
-        ) {
-            return 1;
-        }
-
-        return a.name.localeCompare(
-            b.name,
-            undefined,
-            {
-                numeric: true,
-                sensitivity: "base"
-            }
-        );
-
-    });
-
-
-    return results;
-
-}
-
-
-/*
----------------------------------------------------------
-CLEAN URL
----------------------------------------------------------
-*/
-
-function cleanURL(url) {
-
-    return url
-        .replace(/&amp;/g, "&")
-        .replace(/[),.]+$/, "");
-
-}
-
-
-/*
----------------------------------------------------------
-CLEAN NAME
----------------------------------------------------------
-*/
-
-function cleanName(name) {
-
-    return name
-        .replace(/\[.*?\]/g, "")
-        .replace(/&amp;/g, "&")
-        .trim();
-
-}
-
-
-/*
----------------------------------------------------------
-OPEN DIRECTORY
----------------------------------------------------------
-*/
-
-async function openDirectory(
-    title,
-    url,
-    pushHistory
-) {
-
-    if (pushHistory) {
-
-        historyStack.push({
-
-            title:
-                currentTitle,
-
-            url:
-                currentPath
-
-        });
-
-    }
-
-
-    currentTitle =
-        title;
-
-    currentPath =
-        url;
-
-
-    document
-        .getElementById(
-            "pageTitle"
-        )
-        .textContent =
-        title;
-
-
-    document
-        .getElementById(
-            "breadcrumb"
-        )
-        .textContent =
-        buildBreadcrumb(url);
-
-
-    const content =
-        document.getElementById(
-            "libraryContent"
-        );
-
-
-    content.innerHTML =
-
-        '<div class="loading">' +
-
-        '<div class="spinner"></div>' +
-
-        'Loading library...' +
-
-        '</div>';
-
-
-    showScreen(
-        "libraryScreen"
-    );
-
-
-    window.scrollTo(0, 0);
-
-
-    const items =
-        await fetchDirectory(url);
-
-
-    if (!items) {
-
-        content.innerHTML =
-
-            '<div class="notice">' +
-
-            '<strong>Library could not be loaded.</strong>' +
-
-            '<br><br>' +
-
-            'The source directory may temporarily block automated access. ' +
-
-            'Use the button below to open the original manufacturer directory.' +
-
-            '<br><br>' +
-
-            '<a class="blue-button" ' +
-
-            'target="_blank" ' +
-
-            'rel="noopener" ' +
-
-            'href="' +
-            escapeHTML(url) +
-            '">' +
-
-            'OPEN SOURCE DIRECTORY' +
-
-            '</a>' +
-
-            '</div>';
-
-        return;
-
-    }
-
-
-    renderDirectory(
-        items,
-        content
-    );
-
-}
-
-
-/*
----------------------------------------------------------
-RENDER DIRECTORY
----------------------------------------------------------
-*/
-
-function renderDirectory(
-    items,
-    container
-) {
-
-    container.innerHTML = "";
-
-
-    if (!items.length) {
-
-        container.innerHTML =
-
-            '<div class="notice">' +
-
-            '<strong>No files were found.</strong>' +
-
-            '<br><br>' +
-
-            'This directory appears to be empty.' +
-
-            '</div>';
-
-        return;
-
-    }
-
-
-    const list =
-        document.createElement("div");
-
-    list.className =
-        "library-list";
-
-
-    items.forEach(function(item) {
-
-        const button =
-            document.createElement("button");
-
-
-        button.className =
-            "item-button " +
-            (
-                item.folder
-                ? "folder-item"
-                : "pdf-item"
-            );
-
-
-        const icon =
-            item.folder
-            ? "📁"
-            : "📄";
-
-
-        const type =
-            item.folder
-            ? "FOLDER"
-            : "PDF DOCUMENT";
-
-
-        button.innerHTML =
-
-            '<span class="item-icon">' +
-            icon +
-            '</span>' +
-
-            '<span class="item-name">' +
-
-            escapeHTML(item.name) +
-
-            '<span class="item-type">' +
-            type +
-            '</span>' +
-
-            '</span>' +
-
-            '<span class="arrow">›</span>';
-
-
-        button.onclick =
-            function() {
-
-                if (item.folder) {
-
-                    openDirectory(
-                        item.name,
-                        item.url,
-                        true
-                    );
-
-                }
-
-                else {
-
-                    /*
-                    FINAL STEP:
-                    Open the original PDF normally.
-                    */
-
-                    window.open(
-                        item.url,
-                        "_blank",
-                        "noopener"
-                    );
-
-                }
-
-            };
-
-
-        list.appendChild(
-            button
-        );
-
-    });
-
-
-    container.appendChild(
-        list
-    );
-
-}
-
-
-/*
----------------------------------------------------------
-BREADCRUMB
----------------------------------------------------------
-*/
-
-function buildBreadcrumb(url) {
-
-    const prefix =
-        ROOT;
-
-
-    if (
-        !url.startsWith(prefix)
-    ) {
-
-        return "LIBRARY";
-
-    }
-
-
-    const relative =
-        url.substring(
-            prefix.length
-        );
-
-
-    const parts =
-        relative
-            .split("/")
-            .filter(Boolean)
-            .map(function(part) {
-
-                try {
-
-                    return decodeURIComponent(
-                        part
-                    );
-
-                }
-
-                catch {
-
-                    return part;
-
-                }
-
-            });
-
-
-    return [
-        "ROWE",
-        ...parts
-    ].join("  /  ");
-
-}
-
-
-/*
----------------------------------------------------------
-BACK
----------------------------------------------------------
-*/
-
-function goBack() {
-
-    if (!historyStack.length) {
-
-        showHome();
-
-        return;
-
-    }
-
-
-    const previous =
-        historyStack.pop();
-
-
-    openDirectory(
-        previous.title,
-        previous.url,
-        false
-    );
-
-}
-
-
-/*
----------------------------------------------------------
-SEARCH
----------------------------------------------------------
-*/
-
-async function runSearch() {
-
-    const query =
-        document
-            .getElementById(
-                "searchInput"
-            )
-            .value
-            .trim()
-            .toLowerCase();
-
-
-    if (!query) {
-
-        return;
-
-    }
-
-
-    showScreen(
-        "searchScreen"
-    );
-
-
-    const status =
-        document.getElementById(
-            "searchStatus"
-        );
-
-
-    const resultBox =
-        document.getElementById(
-            "searchResults"
-        );
-
-
-    status.innerHTML =
-        '<strong>SEARCHING LIVE LIBRARY</strong>' +
-        '<br><br>' +
-        'Checking manufacturer directories. This may take a moment the first time.';
-
-
-    resultBox.innerHTML = "";
-
-
-    /*
-    Search manufacturer names immediately.
-    */
-
-    manufacturers
-        .filter(function(name) {
-
-            return name
-                .toLowerCase()
-                .includes(query);
-
-        })
-        .forEach(function(name) {
-
-            addSearchResult(
-
-                resultBox,
-
-                name,
-
-                "Manufacturer",
-
-                makePath(
-                    ROOT,
-                    name
-                ),
-
-                true
-
-            );
-
-        });
-
-
-    /*
-    Search live directories.
-    */
-
-    let matches = 0;
-
-
-    for (
-        const manufacturer
-        of manufacturers
-    ) {
-
-        const url =
-            makePath(
-                ROOT,
-                manufacturer
-            );
-
-
-        const found =
-            await searchDirectory(
-                url,
-                manufacturer,
-                query,
-                0
-            );
-
-
-        matches += found;
-
-        status.innerHTML =
-            '<strong>SEARCHING LIVE LIBRARY</strong>' +
-            '<br><br>' +
-            'Checked: ' +
-            escapeHTML(manufacturer);
-
-    }
-
-
-    if (
-        matches === 0 &&
-        resultBox.children.length === 0
-    ) {
-
-        resultBox.innerHTML =
-
-            '<div class="notice">' +
-
-            '<strong>No matching manual found.</strong>' +
-
-            '<br><br>' +
-
-            'Try searching for a manufacturer, model number, ' +
-
-            'or a word from the manual title.' +
-
-            '</div>';
-
-    }
-
-
-    status.innerHTML =
-
-        '<strong>SEARCH COMPLETE</strong>' +
-
-        '<br><br>' +
-
-        'Matching folders and documents are shown below.';
-
-}
-
-
-/*
----------------------------------------------------------
-RECURSIVE SEARCH
----------------------------------------------------------
-*/
-
-async function searchDirectory(
-    url,
-    pathName,
-    query,
-    depth
-) {
-
-    /*
-    Prevent runaway crawling.
-    */
-
-    if (depth > 3) {
-
-        return 0;
-
-    }
-
-
-    const items =
-        await fetchDirectory(url);
-
-
-    if (!items) {
-
-        return 0;
-
-    }
-
-
-    let count = 0;
-
-
-    for (
-        const item
-        of items
-    ) {
-
-        const itemPath =
-            pathName +
-            " / " +
-            item.name;
-
-
-        if (
-            item.name
-                .toLowerCase()
-                .includes(query)
-        ) {
-
-            addSearchResult(
-
-                document.getElementById(
-                    "searchResults"
-                ),
-
-                item.name,
-
-                itemPath,
-
-                item.url,
-
-                item.folder
-
-            );
-
-
-            count++;
-
-        }
-
-
-        /*
-        Recursively search folders.
-        */
-
-        if (item.folder) {
-
-            const childCount =
-                await searchDirectory(
-                    item.url,
-                    itemPath,
-                    query,
-                    depth + 1
-                );
-
-
-            count += childCount;
-
-        }
-
-    }
-
-
-    return count;
-
-}
-
-
-/*
----------------------------------------------------------
-ADD SEARCH RESULT
----------------------------------------------------------
-*/
-
-function addSearchResult(
-    container,
-    title,
-    path,
-    url,
-    folder
-) {
-
-    /*
-    Avoid duplicate results.
-    */
-
-    const existing =
-        Array.from(
-            container.children
-        )
-        .some(function(element) {
-
-            return element.dataset.url === url;
-
-        });
-
-
-    if (existing) {
-
-        return;
-
-    }
-
-
-    const result =
-        document.createElement("button");
-
-
-    result.className =
-        "search-result";
-
-
-    result.dataset.url =
-        url;
-
-
-    result.innerHTML =
-
-        '<div class="search-result-title">' +
-
-        (folder ? "📁 " : "📄 ") +
-
-        escapeHTML(title) +
-
-        '</div>' +
-
-        '<div class="search-result-path">' +
-
-        escapeHTML(path) +
-
-        '</div>';
-
-
-    result.onclick =
-        function() {
-
-            if (folder) {
-
-                openDirectory(
-                    title,
-                    url,
-                    true
-                );
-
-            }
-
-            else {
-
-                window.open(
-                    url,
-                    "_blank",
-                    "noopener"
-                );
-
-            }
-
-        };
-
-
-    container.appendChild(
-        result
-    );
-
-}
-
-
-/*
----------------------------------------------------------
-ENTER KEY SEARCH
----------------------------------------------------------
-*/
+/* --------------------------------------------------
+   SCREEN CONTROL
+-------------------------------------------------- */
+
+function showScreen(id){
 
 document
-    .getElementById(
-        "searchInput"
-    )
-    .addEventListener(
-        "keydown",
-        function(event) {
+.querySelectorAll(".screen")
+.forEach(function(el){
 
-            if (
-                event.key === "Enter"
-            ) {
+el.classList.remove("active");
 
-                runSearch();
+});
 
-            }
+document
+.getElementById(id)
+.classList.add("active");
 
-        }
-    );
+}
+
+
+function showHome(){
+
+historyStack=[];
+
+showScreen("homeScreen");
+
+window.scrollTo(0,0);
+
+}
+
+
+/* --------------------------------------------------
+   MANUFACTURERS
+-------------------------------------------------- */
+
+function renderManufacturers(){
+
+const grid =
+document.getElementById(
+"manufacturerGrid"
+);
+
+grid.innerHTML="";
+
+manufacturers.forEach(function(name){
+
+const button =
+document.createElement("button");
+
+button.className =
+"manufacturer-button";
+
+button.innerHTML =
+'<span class="folder-icon">▱</span>' +
+'<span>'+esc(name)+'</span>' +
+'<span class="arrow">›</span>';
+
+button.onclick=function(){
+
+openDirectory(
+name,
+pathURL(ROOT,name),
+true
+);
+
+};
+
+grid.appendChild(button);
+
+});
+
+}
+
+
+/* --------------------------------------------------
+   DIRECTORY READER
+-------------------------------------------------- */
+
+async function getDirectory(url){
+
+if(cache[url]){
+return cache[url];
+}
 
 
 /*
----------------------------------------------------------
-START APP
----------------------------------------------------------
+IMPORTANT:
+
+The proxy is only used to read the directory.
+
+We then STRICTLY filter every returned link
+so that a Dorma page cannot accidentally show
+links from another manufacturer.
 */
+
+const proxy =
+"https://r.jina.ai/http://" +
+url.replace(/^https?:\/\//,"");
+
+
+try{
+
+const response =
+await fetch(proxy);
+
+if(!response.ok){
+throw new Error("Unable to read directory");
+}
+
+const text =
+await response.text();
+
+const items =
+parseDirectory(text,url);
+
+cache[url]=items;
+
+return items;
+
+}catch(error){
+
+console.error(error);
+
+return null;
+
+}
+
+}
+
+
+/* --------------------------------------------------
+   DIRECTORY PARSER
+-------------------------------------------------- */
+
+function parseDirectory(text,currentURL){
+
+const items=[];
+
+const seen=new Set();
+
+
+/*
+Find markdown links.
+*/
+
+const regex =
+/\[([^\]]+)\]\(([^)]+)\)/g;
+
+let match;
+
+
+while(
+(match=regex.exec(text)) !== null
+){
+
+let name =
+match[1].trim();
+
+let href =
+match[2].trim();
+
+
+/*
+Remove markdown formatting.
+*/
+
+name =
+name.replace(/\*\*/g,"")
+.trim();
+
+
+/*
+Convert relative links.
+*/
+
+let fullURL;
+
+
+try{
+
+if(
+href.startsWith("http://") ||
+href.startsWith("https://")
+){
+
+fullURL=href;
+
+}else{
+
+fullURL =
+new URL(
+href,
+currentURL
+).href;
+
+}
+
+}catch{
+
+continue;
+
+}
+
+
+/*
+Remove fragments.
+*/
+
+fullURL =
+fullURL.split("#")[0];
+
+
+/*
+CRITICAL FILTER:
+
+Only allow links inside the current
+manuals directory.
+*/
+
+const currentPath =
+new URL(currentURL).pathname;
+
+const linkPath =
+new URL(fullURL).pathname;
+
+
+/*
+A result must begin with the exact
+current directory path.
+*/
+
+if(
+!linkPath.startsWith(currentPath)
+){
+
+continue;
+
+}
+
+
+/*
+Don't allow parent directory.
+*/
+
+if(
+linkPath === currentPath
+){
+
+continue;
+
+}
+
+
+/*
+Only accept direct children.
+
+Example:
+
+Dorma/
+Dorma/file.pdf       YES
+
+Dorma/
+Dorma/Slider/        YES
+
+Dorma/
+Stanley/file.pdf     NO
+
+Dorma/
+Dorma/Slider/file.pdf
+when viewing Dorma/       NO
+*/
+
+let remainder =
+linkPath.substring(
+currentPath.length
+);
+
+
+remainder =
+remainder.replace(/^\/+/,"");
+
+
+if(
+remainder.includes("/")
+){
+
+continue;
+
+}
+
+
+/*
+Clean filename.
+*/
+
+if(
+name.toLowerCase()
+.includes("to parent directory")
+){
+
+continue;
+
+}
+
+
+/*
+Use URL filename when the link
+text is strange.
+*/
+
+if(
+!name ||
+name.length<2
+){
+
+try{
+
+name =
+decodeURIComponent(
+linkPath
+.split("/")
+.pop()
+);
+
+}catch{
+
+continue;
+
+}
+
+}
+
+
+/*
+Normalize folder name.
+*/
+
+const isFolder =
+fullURL.endsWith("/");
+
+
+const isPDF =
+/\.pdf$/i.test(fullURL);
+
+
+if(
+!isFolder &&
+!isPDF
+){
+
+continue;
+
+}
+
+
+/*
+Prevent duplicates.
+*/
+
+if(
+seen.has(fullURL)
+){
+
+continue;
+
+}
+
+seen.add(fullURL);
+
+
+items.push({
+
+name:name,
+
+url:fullURL,
+
+folder:isFolder,
+
+pdf:isPDF
+
+});
+
+}
+
+
+/*
+Sort folders first,
+then alphabetical/numeric.
+*/
+
+items.sort(function(a,b){
+
+if(
+a.folder &&
+!b.folder
+){
+
+return -1;
+
+}
+
+if(
+!a.folder &&
+b.folder
+){
+
+return 1;
+
+}
+
+return a.name.localeCompare(
+b.name,
+undefined,
+{
+numeric:true,
+sensitivity:"base"
+}
+);
+
+});
+
+
+return items;
+
+}
+
+
+/* --------------------------------------------------
+   OPEN DIRECTORY
+-------------------------------------------------- */
+
+async function openDirectory(
+title,
+url,
+addHistory
+){
+
+if(addHistory){
+
+historyStack.push({
+
+title:currentTitle,
+
+url:currentURL
+
+});
+
+}
+
+
+currentTitle=title;
+
+currentURL=url;
+
+
+document
+.getElementById("pageTitle")
+.textContent=title;
+
+
+document
+.getElementById("breadcrumb")
+.textContent=
+makeBreadcrumb(url);
+
+
+const content =
+document.getElementById(
+"libraryContent"
+);
+
+
+content.innerHTML=
+'<div class="loading">' +
+'<div class="spinner"></div>' +
+'Loading '+esc(title)+'...' +
+'</div>';
+
+
+showScreen("libraryScreen");
+
+window.scrollTo(0,0);
+
+
+const items =
+await getDirectory(url);
+
+
+if(!items){
+
+content.innerHTML=
+
+'<div class="notice">' +
+
+'<strong>Unable to load this library.</strong>' +
+
+'<br><br>' +
+
+'The source server may temporarily block directory reading.' +
+
+'<br><br>' +
+
+'<button class="blue-button" ' +
+'onclick="window.open(\'' +
+url.replace(/'/g,"%27") +
+'\',\'_blank\')">' +
+
+'OPEN ORIGINAL DIRECTORY' +
+
+'</button>' +
+
+'</div>';
+
+return;
+
+}
+
+
+renderDirectory(
+items,
+content
+);
+
+}
+
+
+/* --------------------------------------------------
+   RENDER DIRECTORY
+-------------------------------------------------- */
+
+function renderDirectory(
+items,
+container
+){
+
+container.innerHTML="";
+
+
+if(!items.length){
+
+container.innerHTML=
+
+'<div class="notice">' +
+
+'<strong>No documents found.</strong>' +
+
+'<br><br>' +
+
+'This directory appears to contain no directly readable files.' +
+
+'</div>';
+
+return;
+
+}
+
+
+const list =
+document.createElement("div");
+
+list.className="library-list";
+
+
+items.forEach(function(item){
+
+const button =
+document.createElement("button");
+
+button.className =
+"item-button " +
+(
+item.folder
+?
+"folder-item"
+:
+"pdf-item"
+);
+
+
+const icon =
+item.folder
+?
+"📁"
+:
+"📄";
+
+
+const type =
+item.folder
+?
+"FOLDER"
+:
+"PDF DOCUMENT";
+
+
+button.innerHTML=
+
+'<span class="item-icon">' +
+icon +
+'</span>' +
+
+'<span class="item-name">' +
+
+esc(item.name) +
+
+'<span class="item-type">' +
+type +
+'</span>' +
+
+'</span>' +
+
+'<span class="arrow">›</span>';
+
+
+button.onclick=function(){
+
+if(item.folder){
+
+openDirectory(
+item.name,
+item.url,
+true
+);
+
+}else{
+
+/*
+THIS IS THE FINAL STEP.
+
+The ROWE GUI ends here.
+
+The original PDF opens normally.
+*/
+
+window.open(
+item.url,
+"_blank"
+);
+
+}
+
+};
+
+
+list.appendChild(button);
+
+});
+
+
+container.appendChild(list);
+
+}
+
+
+/* --------------------------------------------------
+   BREADCRUMB
+-------------------------------------------------- */
+
+function makeBreadcrumb(url){
+
+const rootPath =
+new URL(ROOT).pathname;
+
+const path =
+new URL(url).pathname;
+
+let relative =
+path.substring(
+rootPath.length
+);
+
+relative =
+relative
+.split("/")
+.filter(Boolean)
+.map(function(part){
+
+try{
+
+return decodeURIComponent(part);
+
+}catch{
+
+return part;
+
+}
+
+});
+
+
+return [
+"ROWE",
+...relative
+].join("  /  ");
+
+}
+
+
+/* --------------------------------------------------
+   BACK
+-------------------------------------------------- */
+
+function goBack(){
+
+if(
+!historyStack.length
+){
+
+showHome();
+
+return;
+
+}
+
+
+const previous =
+historyStack.pop();
+
+
+openDirectory(
+previous.title,
+previous.url,
+false
+);
+
+}
+
+
+/* --------------------------------------------------
+   SEARCH
+-------------------------------------------------- */
+
+async function runSearch(){
+
+const query =
+document
+.getElementById(
+"searchInput"
+)
+.value
+.trim()
+.toLowerCase();
+
+
+if(!query){
+return;
+}
+
+
+showScreen("searchScreen");
+
+
+const status =
+document.getElementById(
+"searchStatus"
+);
+
+const results =
+document.getElementById(
+"searchResults"
+);
+
+
+status.innerHTML =
+"<strong>SEARCHING THE LIBRARY</strong>" +
+"<br><br>" +
+"Checking manufacturer libraries...";
+
+
+results.innerHTML="";
+
+
+let total=0;
+
+
+for(
+const manufacturer
+of manufacturers
+){
+
+status.innerHTML =
+"<strong>SEARCHING THE LIBRARY</strong>" +
+"<br><br>" +
+"Checking "+esc(manufacturer)+"...";
+
+
+const url =
+pathURL(
+ROOT,
+manufacturer
+);
+
+
+const count =
+await searchDirectory(
+url,
+manufacturer,
+query,
+0
+);
+
+
+total += count;
+
+}
+
+
+if(total===0){
+
+results.innerHTML=
+
+'<div class="notice">' +
+
+'<strong>No matches found.</strong>' +
+
+'<br><br>' +
+
+'Try a manufacturer name, model number, ' +
+'or part of a manual title.' +
+
+'</div>';
+
+}
+
+
+status.innerHTML =
+"<strong>SEARCH COMPLETE</strong>" +
+"<br><br>" +
+total +
+" matching result(s) found.";
+
+}
+
+
+/* --------------------------------------------------
+   RECURSIVE SEARCH
+-------------------------------------------------- */
+
+async function searchDirectory(
+url,
+path,
+query,
+depth
+){
+
+if(depth>4){
+return 0;
+}
+
+
+const items =
+await getDirectory(url);
+
+
+if(!items){
+return 0;
+}
+
+
+let count=0;
+
+
+for(
+const item
+of items
+){
+
+const fullPath =
+path+" / "+item.name;
+
+
+if(
+item.name
+.toLowerCase()
+.includes(query)
+){
+
+addSearchResult(
+item.name,
+fullPath,
+item.url,
+item.folder
+);
+
+count++;
+
+}
+
+
+if(item.folder){
+
+count +=
+await searchDirectory(
+item.url,
+fullPath,
+query,
+depth+1
+);
+
+}
+
+}
+
+
+return count;
+
+}
+
+
+/* --------------------------------------------------
+   ADD SEARCH RESULT
+-------------------------------------------------- */
+
+function addSearchResult(
+name,
+path,
+url,
+folder
+){
+
+const container =
+document.getElementById(
+"searchResults"
+);
+
+
+const result =
+document.createElement("button");
+
+result.className="search-result";
+
+
+result.innerHTML=
+
+'<div class="result-title">' +
+
+(
+folder
+?
+"📁 "
+:
+"📄 "
+) +
+
+esc(name) +
+
+'</div>' +
+
+'<div class="result-path">' +
+
+esc(path) +
+
+'</div>';
+
+
+result.onclick=function(){
+
+if(folder){
+
+openDirectory(
+name,
+url,
+true
+);
+
+}else{
+
+window.open(
+url,
+"_blank"
+);
+
+}
+
+};
+
+
+container.appendChild(result);
+
+}
+
+
+/* --------------------------------------------------
+   ENTER TO SEARCH
+-------------------------------------------------- */
+
+document
+.getElementById(
+"searchInput"
+)
+.addEventListener(
+"keydown",
+function(event){
+
+if(
+event.key==="Enter"
+){
+
+runSearch();
+
+}
+
+});
+
+
+/* --------------------------------------------------
+   START
+-------------------------------------------------- */
 
 renderManufacturers();
 
