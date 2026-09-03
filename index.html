@@ -1,393 +1,586 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#080a0d">
+
 <title>ROWE Tech Support</title>
 
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  background:#080a0d;
-  color:#f1f3f5;
-  font-family:Arial,Helvetica,sans-serif;
+* {
+    box-sizing: border-box;
 }
-.wrap{max-width:1000px;margin:auto;padding:18px}
-header{text-align:center;padding:20px 8px 12px}
-.logo{width:min(100%,520px);max-height:190px;object-fit:contain}
-.sub{
-  color:#9da5ae;
-  font-size:13px;
-  letter-spacing:2px;
-  margin:8px 0 22px
+
+body {
+    margin: 0;
+    background: #080a0d;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
 }
-.search{
-  display:flex;
-  gap:10px;
-  background:#171b20;
-  border:1px solid #39414a;
-  border-radius:14px;
-  padding:10px;
-  margin-bottom:28px
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+    padding: 18px;
 }
-.search input{
-  flex:1;
-  min-width:0;
-  background:transparent;
-  border:0;
-  outline:0;
-  color:white;
-  font-size:17px;
-  padding:12px
+
+header {
+    text-align: center;
+    padding: 10px 0 20px;
 }
-button,.btn{
-  border:1px solid #40505f;
-  background:#252b32;
-  color:white;
-  border-radius:10px;
-  padding:13px 16px;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
-  text-decoration:none;
-  display:inline-block;
+
+.logo {
+    width: 100%;
+    max-width: 520px;
+    max-height: 190px;
+    object-fit: contain;
 }
-.primary{background:#1677d2;border-color:#318de0}
-h2{
-  font-size:18px;
-  color:#aeb6bf;
-  letter-spacing:1px;
-  margin:18px 0 12px
+
+.subtitle {
+    color: #9da5ae;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-top: 8px;
 }
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px
+
+.search {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    background: #15191e;
+    border: 1px solid #39434d;
+    padding: 10px;
+    border-radius: 14px;
 }
-.maker{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  min-height:65px;
-  width:100%;
-  text-align:left;
+
+.search input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 17px;
+    padding: 10px;
 }
-.maker span:first-child{color:#45a5ff;font-size:22px}
-.maker span:nth-child(2){flex:1;margin-left:10px}
-.arrow{color:#9da5ae}
-.panel{
-  background:#15191e;
-  border:1px solid #343c44;
-  border-radius:14px;
-  padding:16px;
-  margin-top:18px
+
+button,
+.source-button {
+    background: #252c33;
+    color: white;
+    border: 1px solid #46515c;
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
 }
-.result{
-  display:block;
-  padding:14px;
-  margin:8px 0;
-  background:#20262c;
-  border:1px solid #3a454f;
-  border-radius:10px;
-  color:white;
-  text-decoration:none;
+
+.blue {
+    background: #1677d2;
+    border-color: #318de0;
 }
-.result small{display:block;color:#89939d;margin-top:5px}
-.hidden{display:none}
-.back{margin-bottom:15px}
-footer{
-  text-align:center;
-  color:#707982;
-  font-size:12px;
-  padding:30px 10px
+
+h2 {
+    color: #b7bec6;
+    font-size: 17px;
+    letter-spacing: 1px;
+    margin: 20px 0 12px;
 }
-@media(max-width:700px){
-  .grid{grid-template-columns:repeat(2,1fr)}
+
+.manufacturers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 }
-@media(max-width:430px){
-  .grid{grid-template-columns:1fr}
-  .search{flex-direction:column}
-  .search button{width:100%}
+
+.manufacturer {
+    min-height: 65px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon {
+    color: #48a5ff;
+    font-size: 22px;
+}
+
+.arrow {
+    margin-left: auto;
+    color: #8e98a2;
+    font-size: 22px;
+}
+
+.info {
+    background: #15191e;
+    border: 1px solid #39434d;
+    border-radius: 14px;
+    padding: 17px;
+    margin-top: 20px;
+    color: #9da5ae;
+    line-height: 1.5;
+}
+
+.info strong {
+    color: #48a5ff;
+}
+
+#searchResults {
+    display: none;
+}
+
+.result {
+    display: block;
+    background: #20262c;
+    border: 1px solid #3a454f;
+    border-radius: 10px;
+    padding: 14px;
+    margin: 8px 0;
+    color: white;
+    text-decoration: none;
+}
+
+.result small {
+    display: block;
+    color: #8f99a3;
+    margin-top: 5px;
+}
+
+.library {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #080a0d;
+    z-index: 100;
+}
+
+.library-header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: #11151a;
+    border-bottom: 1px solid #39434d;
+}
+
+.library-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
+
+.library iframe {
+    width: 100%;
+    height: calc(100% - 60px);
+    border: none;
+    background: white;
+}
+
+@media(max-width:700px) {
+    .manufacturers {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width:450px) {
+    .manufacturers {
+        grid-template-columns: 1fr;
+    }
+
+    .search {
+        flex-direction: column;
+    }
+
+    .search button {
+        width: 100%;
+    }
 }
 </style>
 </head>
 
 <body>
-<div class="wrap">
+
+<div class="container">
 
 <header>
-  <img class="logo" src="rowe-logo.png" alt="ROWE Tech Support">
-  <div class="sub">AUTOMATIC DOOR TECHNICAL REFERENCE</div>
 
-  <div class="search">
-    <input id="searchBox" type="search"
-      placeholder="Search manufacturer, model, or manual...">
-    <button class="primary" onclick="search()">SEARCH</button>
-  </div>
+<img src="rowe-logo.png"
+     class="logo"
+     alt="ROWE Tech Support">
+
+<div class="subtitle">
+AUTOMATIC DOOR TECHNICAL REFERENCE
+</div>
+
+<div class="search">
+
+<input
+    id="searchBox"
+    type="search"
+    placeholder="Search manufacturer, model, or manual..."
+>
+
+<button class="blue" onclick="searchLibrary()">
+SEARCH
+</button>
+
+</div>
+
 </header>
 
-<section id="home">
+
+<main id="home">
+
 <h2>BROWSE BY MANUFACTURER</h2>
-<div class="grid" id="makers"></div>
 
-<div class="panel">
-  <b style="color:#3f9df2">TECHNICAL DOCUMENTS. REAL ANSWERS.</b>
-  <p style="color:#aab1b8;line-height:1.5">
-    Quick access to original automatic-door technical documents.
-    Select a manufacturer to browse its current manual library.
-  </p>
-  <a class="btn primary" target="_blank"
-     href="https://www.addisonautomatics.com/wp-content/uploads/manuals/">
-     OPEN COMPLETE SOURCE LIBRARY
-  </a>
-</div>
-</section>
+<div class="manufacturers" id="manufacturerList"></div>
 
-<section id="results" class="hidden">
-  <button class="back" onclick="goHome()">← BACK</button>
-  <h2>SEARCH RESULTS</h2>
-  <div id="resultList"></div>
-</section>
+<div class="info">
 
-<section id="makerPage" class="hidden">
-  <button class="back" onclick="goHome()">← BACK</button>
-  <h2 id="makerTitle"></h2>
-  <div id="makerLinks"></div>
-</section>
+<strong>LIVE TECHNICAL LIBRARY</strong>
 
-<footer>
-  ROWE Tech Support • Independent technical reference<br>
-  Original documents remain at their source.
-</footer>
+<br><br>
+
+Browse the current manufacturer directories and open the
+original manuals directly from their source location.
+
+<br><br>
+
+<a
+class="source-button blue"
+target="_blank"
+href="https://www.addisonautomatics.com/wp-content/uploads/manuals/">
+
+OPEN COMPLETE SOURCE LIBRARY
+
+</a>
 
 </div>
+
+</main>
+
+
+<section id="searchResults">
+
+<button onclick="goHome()">
+← BACK
+</button>
+
+<h2>SEARCH</h2>
+
+<div id="results"></div>
+
+</section>
+
+</div>
+
+
+<div class="library" id="library">
+
+<div class="library-header">
+
+<button onclick="closeLibrary()">
+← BACK
+</button>
+
+<div class="library-title" id="libraryTitle">
+MANUAL LIBRARY
+</div>
+
+<a
+id="openSource"
+class="source-button"
+target="_blank">
+
+OPEN
+
+</a>
+
+</div>
+
+<iframe id="libraryFrame"></iframe>
+
+</div>
+
 
 <script>
-const ROOT="https://www.addisonautomatics.com/wp-content/uploads/manuals/";
 
-const makers=[
-"BEA","Besam","Detex","DOM","Dorma","Gildor","Horton",
-"Hunter-Entrematic","KM","LCN","Motion Access","Nabco_GyroTech",
-"Norton","Optex","Record","Stanley","TJ084","Tormax","Tucker"
+const ROOT =
+"https://www.addisonautomatics.com/wp-content/uploads/manuals/";
+
+const manufacturers = [
+
+"BEA",
+"Besam",
+"Detex",
+"DOM",
+"Dorma",
+"Gildor",
+"Horton",
+"Hunter-Entrematic",
+"KM",
+"LCN",
+"Motion Access",
+"Nabco_GyroTech",
+"Norton",
+"Optex",
+"Record",
+"Stanley",
+"TJ084",
+"Tormax",
+"Tucker"
+
 ];
 
-const links={
-"Besam":[
- ["Fold","Besam/Fold/"],
- ["ICU","Besam/ICU/"],
- ["Revolver","Besam/Revolver/"],
- ["Slider","Besam/Slider/"],
- ["Swinger","Besam/Swinger/"],
- ["BIG BLUE BESAM PARTS BOOK.pdf","Besam/BIG%20BLUE%20BESAM%20PARTS%20BOOK.pdf"]
-],
 
-"Dorma":[
- ["ED100 & ED250.pdf","Dorma/ED100%20%26%20ED250.pdf"],
- ["ED100 & ED250 Mounting Instructions","Dorma/DL3463-010%20ED100%20%26%20ED250%20Mounting%20Instructions%2002-21-12.pdf"],
- ["ED400.pdf","Dorma/ED400.pdf"],
- ["ED700.pdf","Dorma/ED700.pdf"],
- ["ED800.pdf","Dorma/ED800.pdf"],
- ["ED900.pdf","Dorma/ED900.pdf"],
- ["ICU 300.pdf","Dorma/ICU%20300.pdf"]
-],
+function escapeHTML(text) {
 
-"KM":[
- ["KM 1000.pdf","KM/KM%201000.pdf"],
- ["KM 1100.pdf","KM/KM%201100.pdf"],
- ["KM 2000.pdf","KM/KM%202000.pdf"],
- ["KM 3000.pdf","KM/KM%203000.pdf"],
- ["KM 3500.pdf","KM/KM%203500.pdf"],
- ["KM 3800.pdf","KM/KM%203800.pdf"],
- ["KM 4000.pdf","KM/KM%204000.pdf"],
- ["KM 4500.pdf","KM/KM%204500.pdf"],
- ["KM 5100.pdf","KM/KM%205100.pdf"],
- ["KM 7000.pdf","KM/KM%207000.pdf"],
- ["KM 8000.pdf","KM/KM%208000.pdf"]
-],
+return text
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
-"LCN":[
- ["LCN 4810 4820.pdf","LCN/LCN%204810%204820.pdf"],
- ["Astro-Swing Digital.pdf","LCN/Astro-Swing%20Digital.pdf"]
-],
+}
 
-"Detex":[
- ["UDC1000.pdf","Detex/UDC1000.pdf"]
-],
 
-"Optex":[
- ["Optex Elite System with the 903C.pdf","Optex/optex%20elite%20system%20with%20the%20903C.pdf"]
-],
+function makeURL(name) {
 
-"Stanley":[
- ["2000 all glass instructions.pdf","Stanley/2000%20all%20glass%20instructions.pdf"],
- ["203973R - Double Diamond Sliding Door.pdf","Stanley/203973R%20-%20Double%20Diamond%20Sliding%20Door.pdf"],
- ["3000 SLIDER PARTS BREAKDOWN.pdf","Stanley/3000%20SLIDER%20PARTS%20BREAKDOWN.pdf"],
- ["5400 DURAMAX.pdf","Stanley/5400%20DURAMAX.pdf"],
- ["7400 ICU.pdf","Stanley/7400%20ICU.pdf"],
- ["Dura 7000 ICU.pdf","Stanley/Dura%207000%20ICU.pdf"],
- ["DURA STORM.pdf","Stanley/DURA%20STORM.pdf"],
- ["DYNA GLIDE.pdf","Stanley/DYNA%20GLIDE.pdf"],
- ["Industrial slider IS10000.pdf","Stanley/Industrial%20slider%20IS10000.pdf"],
- ["iQ SLIDE 2019.pdf","Stanley/iQ%20SLIDE%202019.pdf"],
- ["IQ SWING 2019.pdf","Stanley/IQ%20SWING%202019.pdf"],
- ["MAGIC SLIDE.pdf","Stanley/MAGIC%20SLIDE.pdf"],
- ["MAGIC SWING OPERATOR.pdf","Stanley/MAGIC%20SWING%20OPERATOR.pdf"],
- ["MODEL J CONTROL.pdf","Stanley/MODEL%20J%20CONTROL.pdf"],
- ["MODEL J WIRING AND LOCK.pdf","Stanley/MODEL%20J%20WIRING%20AND%20LOCK.pdf"],
- ["STAN VISION.pdf","Stanley/STAN%20VISION.pdf"],
- ["STANGUARD.pdf","Stanley/STANGUARD.pdf"],
- ["Stanley 4990 LE.pdf","Stanley/Stanley%204990%20LE.pdf"],
- ["Stanley dura glide 3000.pdf","Stanley/Stanley%20dura%20glide%203000.pdf"],
- ["Stanley dyna glide install and tune.pdf","Stanley/Stanley%20dyna%20glide%20install%20and%20tune.pdf"],
- ["Stanley Magic Access.pdf","Stanley/Stanley%20Magic%20Access.pdf"],
- ["Stanley MC521 SLIDE.pdf","Stanley/Stanley%20MC521%20SLIDE.pdf"],
- ["Stanley MC521 Swing Manual.pdf","Stanley/Stanley%20MC521%20Swing%20Manual%20204027C.pdf"],
- ["Stanley O24 Auto Slide 5000_6000.pdf","Stanley/Stanley%20O24%20Auto%20Slide%205000_6000.pdf"],
- ["Stanley Sentrex AT.pdf","Stanley/Stanley%20Sentrex%20AT.pdf"],
- ["Stanley Sentrex I.pdf","Stanley/Stanley%20Sentrex%20I.pdf"],
- ["Stanley Sentrex II.pdf","Stanley/Stanley%20Sentrex%20II.pdf"],
- ["Stanley Sentrex III.pdf","Stanley/Stanley%20Sentrex%20III.pdf"]
-],
+return ROOT +
+encodeURIComponent(name) +
+"/";
 
-"Tormax":[
- ["9200_9500 Manual","Tormax/9200_9500_%20Manual_TCP%20V2.pdf"],
- ["SLIDER I MOTION.pdf","Tormax/SLIDER%20I%20MOTION.pdf"],
- ["SLIDER TCP51.pdf","Tormax/SLIDER%20TCP51.pdf"],
- ["SWINGER 1102 1201.pdf","Tormax/SWINGER%201102%201201.pdf"],
- ["SWINGER NEW 1102 1201.pdf","Tormax/SWINGER%20NEW%201102%201201.pdf"],
- ["SWINGER TDA.pdf","Tormax/SWINGER%20TDA.pdf"],
- ["SWINGER TN IN GROUND.pdf","Tormax/SWINGER%20TN%20IN%20GROUND.pdf"],
- ["SWINGER TN110.pdf","Tormax/SWINGER%20TN110.pdf"],
- ["TTX I.pdf","Tormax/TTX%20I.pdf"],
- ["TTXII manual SW1.4.pdf","Tormax/TTXII%20manual%20SW1.4.pdf"],
- ["TDAManual.pdf","Tormax/TDAManual.pdf"],
- ["TX_9300_Manual_TCP.pdf","Tormax/TX_9300_Manual_TCP.pdf"]
-]
+}
+
+
+function loadManufacturers() {
+
+const list =
+document.getElementById("manufacturerList");
+
+list.innerHTML = "";
+
+manufacturers.forEach(function(name) {
+
+const button =
+document.createElement("button");
+
+button.className =
+"manufacturer";
+
+button.innerHTML =
+'<span class="icon">▱</span>' +
+'<span>' +
+escapeHTML(name) +
+'</span>' +
+'<span class="arrow">›</span>';
+
+button.onclick = function() {
+
+openLibrary(
+name,
+makeURL(name)
+);
+
 };
 
-function esc(s){
- return s.replaceAll("&","&amp;").replaceAll("<","&lt;")
-}
+list.appendChild(button);
 
-function renderMakers(){
- const box=document.getElementById("makers");
- box.innerHTML="";
- makers.forEach(m=>{
-   const b=document.createElement("button");
-   b.className="maker";
-   b.innerHTML=`<span>▱</span><span>${esc(m)}</span><span class="arrow">›</span>`;
-   b.onclick=()=>openMaker(m);
-   box.appendChild(b);
- });
-}
-
-function openMaker(m){
- document.getElementById("home").classList.add("hidden");
- document.getElementById("results").classList.add("hidden");
- document.getElementById("makerPage").classList.remove("hidden");
- document.getElementById("makerTitle").textContent=m;
-
- const box=document.getElementById("makerLinks");
- box.innerHTML="";
-
- const arr=links[m]||[];
-
- if(arr.length){
-   arr.forEach(x=>{
-     const a=document.createElement("a");
-     a.className="result";
-     a.target="_blank";
-     a.href=ROOT+x[1];
-     a.innerHTML=`📄 ${esc(x[0])}<small>Open original document</small>`;
-     box.appendChild(a);
-   });
- }else{
-   box.innerHTML=`
-    <div class="panel">
-      <p style="color:#aab1b8">
-        This manufacturer does not have individually indexed documents
-        in the app yet. Open its current source directory to browse
-        everything currently available.
-      </p>
-      <a class="btn primary" target="_blank"
-         href="${ROOT+encodeURIComponent(m).replaceAll("%2F","/")}/">
-         OPEN ${esc(m)} LIBRARY
-      </a>
-    </div>`;
- }
-}
-
-function search(){
- const q=document.getElementById("searchBox").value.trim().toLowerCase();
- if(!q)return;
-
- document.getElementById("home").classList.add("hidden");
- document.getElementById("makerPage").classList.add("hidden");
- document.getElementById("results").classList.remove("hidden");
-
- const out=document.getElementById("resultList");
- out.innerHTML="";
-
- const found=[];
-
- makers.forEach(m=>{
-   if(m.toLowerCase().includes(q)){
-     found.push({
-       name:m,
-       sub:"Manufacturer library",
-       url:ROOT+encodeURIComponent(m).replaceAll("%2F","/")+"/"
-     });
-   }
-
-   (links[m]||[]).forEach(x=>{
-     if((m+" "+x[0]).toLowerCase().includes(q)){
-       found.push({
-         name:x[0],
-         sub:m+" • Original PDF",
-         url:ROOT+x[1]
-       });
-     }
-   });
- });
-
- if(!found.length){
-   out.innerHTML=`
-    <div class="panel">
-      <b>No indexed match found.</b>
-      <p style="color:#9da5ae">
-        You can search the complete current source library below.
-      </p>
-      <a class="btn primary" target="_blank"
-       href="https://www.google.com/search?q=site%3Aaddisonautomatics.com%2Fwp-content%2Fuploads%2Fmanuals+${encodeURIComponent(q)}">
-       SEARCH COMPLETE LIBRARY
-      </a>
-    </div>`;
-   return;
- }
-
- found.forEach(r=>{
-   const a=document.createElement("a");
-   a.className="result";
-   a.target="_blank";
-   a.href=r.url;
-   a.innerHTML=`📄 ${esc(r.name)}<small>${esc(r.sub)}</small>`;
-   out.appendChild(a);
- });
-}
-
-function goHome(){
- document.getElementById("results").classList.add("hidden");
- document.getElementById("makerPage").classList.add("hidden");
- document.getElementById("home").classList.remove("hidden");
-}
-
-document.getElementById("searchBox").addEventListener("keydown",e=>{
- if(e.key==="Enter")search();
 });
 
-renderMakers();
+}
+
+
+function openLibrary(name,url) {
+
+document.getElementById(
+"libraryTitle"
+).textContent =
+name + " Library";
+
+document.getElementById(
+"openSource"
+).href = url;
+
+document.getElementById(
+"libraryFrame"
+).src = url;
+
+document.getElementById(
+"library"
+).style.display = "block";
+
+document.body.style.overflow =
+"hidden";
+
+}
+
+
+function closeLibrary() {
+
+document.getElementById(
+"libraryFrame"
+).src =
+"about:blank";
+
+document.getElementById(
+"library"
+).style.display =
+"none";
+
+document.body.style.overflow =
+"";
+
+}
+
+
+function goHome() {
+
+document.getElementById(
+"searchResults"
+).style.display =
+"none";
+
+document.getElementById(
+"home"
+).style.display =
+"block";
+
+}
+
+
+function searchLibrary() {
+
+const query =
+document.getElementById(
+"searchBox"
+).value.trim();
+
+if (!query) return;
+
+
+document.getElementById(
+"home"
+).style.display =
+"none";
+
+document.getElementById(
+"searchResults"
+).style.display =
+"block";
+
+
+const results =
+document.getElementById(
+"results"
+);
+
+results.innerHTML = "";
+
+
+const q =
+query.toLowerCase();
+
+
+const matches =
+manufacturers.filter(function(name) {
+
+return name.toLowerCase().includes(q);
+
+});
+
+
+matches.forEach(function(name) {
+
+const result =
+document.createElement("a");
+
+result.className =
+"result";
+
+result.href = "#";
+
+result.innerHTML =
+"▱ " +
+escapeHTML(name) +
+"<small>Open manufacturer library</small>";
+
+result.onclick =
+function(event) {
+
+event.preventDefault();
+
+openLibrary(
+name,
+makeURL(name)
+);
+
+};
+
+results.appendChild(result);
+
+});
+
+
+const webSearch =
+document.createElement("a");
+
+webSearch.className =
+"result";
+
+webSearch.target =
+"_blank";
+
+webSearch.href =
+"https://www.google.com/search?q=" +
+encodeURIComponent(
+'site:addisonautomatics.com/wp-content/uploads/manuals "' +
+query +
+'"'
+);
+
+webSearch.innerHTML =
+"🔎 Search Complete Manual Library" +
+"<small>" +
+escapeHTML(query) +
+"</small>";
+
+results.appendChild(webSearch);
+
+
+if (!matches.length) {
+
+const message =
+document.createElement("div");
+
+message.className =
+"info";
+
+message.innerHTML =
+"No manufacturer match found.<br><br>" +
+"Use the search result below to search the complete live manual library.";
+
+results.insertBefore(
+message,
+results.firstChild
+);
+
+}
+
+}
+
+
+loadManufacturers();
+
 </script>
 
 </body>
