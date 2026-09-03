@@ -148,7 +148,7 @@ const manualHints={
   ['6100 — Installation Manual','https://www.addisonautomatics.com/wp-content/uploads/manuals/record/6100%20INSTALL%20MANUAL.pdf']
 ]
 };
-const makers={
+const catalog={
 "BEA":{
 "Sensor / Activation Systems":[
 ["BEA — Complete Sensor Library","https://www.addisonautomatics.com/wp-content/uploads/manuals/BEA/"]
@@ -365,17 +365,17 @@ const makers={
 },
 "Tucker":{"Complete Library":[["Tucker — Complete Manual Library","https://www.addisonautomatics.com/wp-content/uploads/manuals/Tucker/"]]}
 };
-function render(q=''){makers.innerHTML='';q=q.toLowerCase().trim();let n=0;
-Object.entries(makers).forEach(([m,ms])=>{if(q && !(m+' '+Object.keys(ms).join(' ')).toLowerCase().includes(q))return;n++;let b=document.createElement('button');b.className='maker';b.innerHTML='<b>'+m.replace('_',' / ')+'</b><span>'+ (Object.keys(ms).length?Object.keys(ms).length+' model/family options':'Browse manufacturer library')+'</span>';b.onclick=()=>openMaker(m);makers.appendChild(b)});
-if(!n)makers.innerHTML='<div class="panel" style="grid-column:1/-1">No match. Try a manufacturer or model name.</div>';
+function render(q=''){const makersEl=document.getElementById('makerGrid');makersEl.innerHTML='';q=q.toLowerCase().trim();let n=0;
+Object.entries(catalog).forEach(([m,ms])=>{if(q && !(m+' '+Object.keys(ms).join(' ')).toLowerCase().includes(q))return;n++;let b=document.createElement('button');b.className='maker';b.innerHTML='<b>'+m.replace('_',' / ')+'</b><span>'+ (Object.keys(ms).length?Object.keys(ms).length+' model/family options':'Browse manufacturer library')+'</span>';b.onclick=()=>openMaker(m);makersEl.appendChild(b)});
+if(!n)makersEl.innerHTML='<div class="panel" style="grid-column:1/-1">No match. Try a manufacturer or model name.</div>';
 }
 function clearSearch(){document.getElementById('search').value='';render();goHome()}
 function show(id){['home','models','manuals'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));scrollTo(0,0)}
 function goHome(){show('home')}function goModels(){show('models')}
-function openMaker(m){const ms=makers[m]||{};document.getElementById('modelCrumb').textContent=m.replace('_',' / ');document.getElementById('modelTitle').textContent=Object.keys(ms).length?'Choose model / family':'Manufacturer library';const box=document.getElementById('modelList');box.innerHTML='';
+function openMaker(m){const ms=catalog[m]||{};document.getElementById('modelCrumb').textContent=m.replace('_',' / ');document.getElementById('modelTitle').textContent=Object.keys(ms).length?'Choose model / family':'Manufacturer library';const box=document.getElementById('modelList');box.innerHTML='';
 if(!Object.keys(ms).length){box.innerHTML='<a class="manual primary" target="_blank" rel="noopener" href="'+BASE+encodeURIComponent(m)+'/">OPEN '+m.toUpperCase()+' LIBRARY ↗</a>'}else Object.entries(ms).forEach(([x,docs])=>{let b=document.createElement('button');b.className='model';b.innerHTML='<span>'+x+'</span><span class="arrow">›</span>';b.onclick=()=>openModel(m,x);box.appendChild(b)});show('models')}
 function openModel(m,x){document.getElementById('manualCrumb').textContent=m+' / '+x;document.getElementById('manualTitle').textContent='Available documents';const box=document.getElementById('manualList');box.innerHTML='';
-const docs=(makers[m]&&makers[m][x])||manualHints[m+'|'+x];
+const docs=(catalog[m]&&catalog[m][x])||manualHints[m+'|'+x];
 if(docs&&docs.length){
   docs.forEach(item=>{
     let a=document.createElement('a');
