@@ -164,7 +164,7 @@ header {
     font-weight: bold;
 }
 
-/* LIBRARY SCREEN */
+/* LIBRARY */
 
 .screen {
     display: none;
@@ -287,7 +287,7 @@ header {
     color: #d4d8dc;
 }
 
-/* SEARCH RESULTS */
+/* SEARCH */
 
 .search-results {
     display: grid;
@@ -376,7 +376,6 @@ footer {
 
 </style>
 </head>
-
 
 <body>
 
@@ -537,14 +536,21 @@ ROWE Tech Support • Independent technical reference
 /*
 =========================================================
 ROWE TECH SUPPORT
-LIVE ADDISON DIRECTORY ENGINE
+LIVE DIRECTORY ENGINE
+=========================================================
 
-IMPORTANT:
-The GUI above is the older ROWE GUI.
+THE GUI ABOVE IS LEFT INTACT.
 
-The code below only handles the directory data.
-PDF links are preserved from the original Addison
-directory instead of being reconstructed.
+THE CODE BELOW DOES THREE THINGS:
+
+1. Opens the real Addison manufacturer directory.
+2. Reads the directory contents.
+3. Displays those contents inside ROWE.
+
+PDF LINKS ARE NEVER REBUILT.
+
+The exact href from Addison is retained and used when
+the technician opens a PDF.
 =========================================================
 */
 
@@ -553,115 +559,126 @@ const ROOT =
 "https://www.addisonautomatics.com/wp-content/uploads/manuals/";
 
 
-const PROXY =
-"https://r.jina.ai/http://www.addisonautomatics.com/wp-content/uploads/manuals/";
+/*
+Jina Reader.
+
+Use HTTPS for the target because the Reader documentation
+supports prepending r.jina.ai/ to the original URL.
+*/
+
+function readerURL(url) {
+
+    return "https://r.jina.ai/" + url;
+
+}
 
 
 /*
 =========================================================
 MANUFACTURERS
 
-"display" = what user sees
-"path"    = actual Addison folder
+The first value is what ROWE displays.
+
+The second value is the REAL Addison directory.
 =========================================================
 */
 
 const manufacturers = [
 
-{
-    display: "BEA",
-    path: "BEA/"
-},
+    {
+        display: "BEA",
+        path: "BEA/"
+    },
 
-{
-    display: "Besam",
-    path: "Besam/"
-},
+    {
+        display: "Besam",
+        path: "Besam/"
+    },
 
-{
-    display: "Detex",
-    path: "Detex/"
-},
+    {
+        display: "Detex",
+        path: "Detex/"
+    },
 
-{
-    display: "DOM",
-    path: "DOM/"
-},
+    {
+        display: "DOM",
+        path: "DOM/"
+    },
 
-{
-    display: "Dorma",
-    path: "Dorma/"
-},
+    {
+        display: "Dorma",
+        path: "Dorma/"
+    },
 
-{
-    display: "Gildor",
-    path: "Gildor/"
-},
+    {
+        display: "Gildor",
+        path: "Gildor/"
+    },
 
-{
-    display: "Horton",
-    path: "Horton/"
-},
+    {
+        display: "Horton",
+        path: "Horton/"
+    },
 
-{
-    display: "Hunter-Entrematic",
-    path: "Hunter-Entrematic/"
-},
+    {
+        display: "Hunter-Entrematic",
+        path: "Hunter-Entrematic/"
+    },
 
-{
-    display: "KM",
-    path: "KM/"
-},
+    {
+        display: "KM",
+        path: "KM/"
+    },
 
-{
-    display: "LCN",
-    path: "LCN/"
-},
+    {
+        display: "LCN",
+        path: "LCN/"
+    },
 
-{
-    display: "Motion Access",
-    path: "Motion%20Access/"
-},
+    {
+        display: "Motion Access",
+        path: "Motion%20Access/"
+    },
 
-{
-    display: "Nabco GyroTech",
-    path: "Nabco_GyroTech/"
-},
+    {
+        display: "Nabco GyroTech",
+        path: "Nabco_GyroTech/"
+    },
 
-{
-    display: "Norton",
-    path: "Norton/"
-},
+    {
+        display: "Norton",
+        path: "Norton/"
+    },
 
-{
-    display: "Optex",
-    path: "Optex/"
-},
+    {
+        display: "Optex",
+        path: "Optex/"
+    },
 
-{
-    display: "Record",
-    path: "Record/"
-},
+    {
+        display: "Record",
+        path: "Record/"
+    },
 
-{
-    display: "Stanley",
-    path: "Stanley/"
-},
+    {
+        display: "Stanley",
+        path: "Stanley/"
+    },
 
-{
-    display: "TJ084",
-    path: "TJ084/"
-},
+    {
+        display: "TJ084",
+        path: "TJ084/"
+    },
 
-{
-    display: "Tormax",
-    path: "Tormax/"
-},
+    {
+        display: "Tormax",
+        path: "Tormax/"
+    },
 
-{
-    display: "Tucker",
-    path: "Tucker/"
-}
+    {
+        display: "Tucker",
+        path: "Tucker/"
+    }
 
 ];
 
@@ -674,26 +691,31 @@ STATE
 
 let historyStack = [];
 
-let currentPath = ROOT;
+let currentURL = ROOT;
 
 let currentTitle = "LIBRARY";
 
-const pageCache = {};
+const directoryCache = new Map();
 
 
 /*
 =========================================================
-ESCAPE HTML
+HTML ESCAPE
 =========================================================
 */
 
 function escapeHTML(value) {
 
     return String(value)
+
         .replace(/&/g, "&amp;")
+
         .replace(/</g, "&lt;")
+
         .replace(/>/g, "&gt;")
+
         .replace(/"/g, "&quot;")
+
         .replace(/'/g, "&#039;");
 
 }
@@ -701,7 +723,7 @@ function escapeHTML(value) {
 
 /*
 =========================================================
-SHOW SCREEN
+SCREEN SWITCHING
 =========================================================
 */
 
@@ -714,6 +736,7 @@ function showScreen(id) {
             screen.classList.remove("active");
 
         });
+
 
     document
         .getElementById(id)
@@ -732,7 +755,7 @@ function showHome() {
 
     historyStack = [];
 
-    currentPath = ROOT;
+    currentURL = ROOT;
 
     currentTitle = "LIBRARY";
 
@@ -749,28 +772,11 @@ function showHome() {
 
 /*
 =========================================================
-GET MANUFACTURER
+MANUFACTURER URL
 =========================================================
 */
 
-function getManufacturer(displayName) {
-
-    return manufacturers.find(function(item) {
-
-        return item.display === displayName;
-
-    });
-
-}
-
-
-/*
-=========================================================
-MAKE MANUFACTURER URL
-=========================================================
-*/
-
-function manufacturerURL(manufacturer) {
+function getManufacturerURL(manufacturer) {
 
     return ROOT + manufacturer.path;
 
@@ -779,18 +785,60 @@ function manufacturerURL(manufacturer) {
 
 /*
 =========================================================
-RESOLVE ORIGINAL URL
-
-This is critical.
-
-The URL is resolved from the actual Addison
-directory link.
-
-We do NOT create PDF URLs from filenames.
+DISPLAY NAME
 =========================================================
 */
 
-function resolveURL(href, baseURL) {
+function cleanName(value) {
+
+    let name =
+        String(value || "")
+        .trim();
+
+
+    name =
+        name.replace(/^[-•\s]+/, "");
+
+
+    name =
+        name.replace(/\/$/, "");
+
+
+    try {
+
+        name =
+            decodeURIComponent(name);
+
+    }
+
+    catch(error) {}
+
+
+    return name.trim();
+
+}
+
+
+/*
+=========================================================
+ORIGINAL URL
+
+This is the key function.
+
+A relative Addison href such as:
+
+    Stanley Magic Access.pdf
+
+becomes:
+
+    https://www.addisonautomatics.com/wp-content/uploads/manuals/Stanley/Stanley%20Magic%20Access.pdf
+
+WITHOUT inventing the filename.
+
+=========================================================
+*/
+
+function originalURL(href, baseURL) {
 
     try {
 
@@ -812,86 +860,20 @@ function resolveURL(href, baseURL) {
 
 /*
 =========================================================
-CLEAN DISPLAY NAME
+PDF CHECK
 =========================================================
 */
 
-function cleanName(name) {
-
-    let value =
-        String(name || "")
-        .trim();
-
-    value =
-        value.replace(/\[.*?\]/g, "");
-
-    value =
-        value.replace(/&amp;/g, "&");
-
-    try {
-
-        value =
-            decodeURIComponent(value);
-
-    }
-
-    catch(error) {}
-
-    value =
-        value.replace(/\/$/, "");
-
-    return value.trim();
-
-}
-
-
-/*
-=========================================================
-IS PDF
-=========================================================
-*/
-
-function isPDF(url, name) {
-
-    const value =
-        String(url || "") +
-        " " +
-        String(name || "");
-
-    return /\.pdf(?:$|[?#])/i.test(value);
-
-}
-
-
-/*
-=========================================================
-IS DIRECTORY
-=========================================================
-*/
-
-function isFolder(href, name) {
-
-    const url =
-        String(href || "");
-
-    const text =
-        String(name || "");
-
-    if (url === "../") {
-
-        return false;
-
-    }
-
-    if (isPDF(url, text)) {
-
-        return false;
-
-    }
+function isPDF(name, url) {
 
     return (
-        url.endsWith("/") ||
-        text.endsWith("/")
+        /\.pdf(?:$|[?#])/i.test(
+            String(name || "")
+        ) ||
+
+        /\.pdf(?:$|[?#])/i.test(
+            String(url || "")
+        )
     );
 
 }
@@ -899,117 +881,206 @@ function isFolder(href, name) {
 
 /*
 =========================================================
-ADD PARSED LINK
+FOLDER CHECK
 =========================================================
 */
 
-function addParsedLink(
-    results,
-    seen,
-    href,
-    name,
-    baseURL
-) {
-
-    if (!href) {
-
-        return;
-
-    }
-
-    href =
-        href.trim();
-
-    if (
-        href === "#" ||
-        href === "../" ||
-        href.toLowerCase() === "parent"
-    ) {
-
-        return;
-
-    }
-
-    const url =
-        resolveURL(
-            href,
-            baseURL
-        );
+function isFolder(name, url) {
 
     if (!url) {
 
-        return;
+        return false;
 
     }
+
+
+    if (isPDF(name, url)) {
+
+        return false;
+
+    }
+
+
+    return (
+        String(url).endsWith("/")
+    );
+
+}
+
+
+/*
+=========================================================
+PARSE MARKDOWN LINKS
+
+Jina Reader normally returns Markdown.
+
+Example:
+
+[Stanley Magic Access.pdf](https://...)
+
+=========================================================
+*/
+
+function parseMarkdown(text, baseURL) {
+
+    const results = [];
+
+    const seen = new Set();
+
 
     /*
-    Only accept Addison manual paths.
+    This pattern allows spaces and encoded characters.
+
+    It intentionally captures the URL until the closing
+    parenthesis at the end of the Markdown link.
     */
 
-    if (
-        !url.includes(
-            "/wp-content/uploads/manuals/"
-        )
-    ) {
+    const lines =
+        String(text)
+        .split(/\r?\n/);
 
-        return;
 
-    }
+    lines.forEach(function(line) {
 
-    const displayName =
-        cleanName(
-            name || href
-        );
+        const match =
+            line.match(
+                /\[([^\]]+)\]\((.+)\)/
+            );
 
-    if (!displayName) {
 
-        return;
+        if (!match) {
 
-    }
+            return;
 
-    if (
-        displayName === "To Parent Directory" ||
-        displayName === ".."
-    ) {
+        }
 
-        return;
 
-    }
+        let name =
+            cleanName(
+                match[1]
+            );
 
-    /*
-    Remove duplicate links.
-    */
 
-    const key =
-        url.toLowerCase();
+        let href =
+            match[2]
+            .trim();
 
-    if (seen.has(key)) {
 
-        return;
+        /*
+        Remove angle brackets used by Markdown
+        around URLs containing special characters.
+        */
 
-    }
+        if (
+            href.startsWith("<") &&
+            href.endsWith(">")
+        ) {
 
-    seen.add(key);
+            href =
+                href.slice(
+                    1,
+                    -1
+                );
 
-    results.push({
+        }
 
-        name: displayName,
 
-        url: url,
+        /*
+        If a title is included after the URL,
+        remove it.
+        */
 
-        folder:
-            isFolder(
+        const titleSeparator =
+            href.match(
+                /^(.+?)\s+["'].*["']$/
+            );
+
+
+        if (titleSeparator) {
+
+            href =
+                titleSeparator[1];
+
+        }
+
+
+        const url =
+            originalURL(
                 href,
-                displayName
-            ),
+                baseURL
+            );
 
-        pdf:
-            isPDF(
-                url,
-                displayName
+
+        if (!url) {
+
+            return;
+
+        }
+
+
+        /*
+        Only accept Addison manual URLs.
+        */
+
+        if (
+            !url.includes(
+                "/wp-content/uploads/manuals/"
             )
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            name === "To Parent Directory" ||
+            name === ".."
+        ) {
+
+            return;
+
+        }
+
+
+        const key =
+            url.toLowerCase();
+
+
+        if (seen.has(key)) {
+
+            return;
+
+        }
+
+
+        seen.add(key);
+
+
+        results.push({
+
+            name: name,
+
+            url: url,
+
+            folder:
+                isFolder(
+                    name,
+                    url
+                ),
+
+            pdf:
+                isPDF(
+                    name,
+                    url
+                )
+
+        });
 
     });
+
+
+    return results;
 
 }
 
@@ -1018,115 +1089,141 @@ function addParsedLink(
 =========================================================
 PARSE HTML
 
-If Jina gives us HTML, this catches the real
-<a href=""> links.
+This is a second parser in case Reader returns HTML
+rather than Markdown.
 =========================================================
 */
 
-function parseHTML(
-    text,
-    baseURL
-) {
+function parseHTML(text, baseURL) {
 
     const results = [];
 
     const seen = new Set();
 
+
     const parser =
         new DOMParser();
 
-    const documentHTML =
+
+    const doc =
         parser.parseFromString(
             text,
             "text/html"
         );
 
-    const anchors =
+
+    const links =
         Array.from(
-            documentHTML.querySelectorAll(
+            doc.querySelectorAll(
                 "a[href]"
             )
         );
 
-    anchors.forEach(function(anchor) {
 
-        addParsedLink(
+    links.forEach(function(link) {
 
-            results,
+        const href =
+            link.getAttribute(
+                "href"
+            );
 
-            seen,
 
-            anchor.getAttribute("href"),
+        if (!href) {
 
-            anchor.textContent,
+            return;
 
-            baseURL
+        }
 
-        );
+
+        if (
+            href === "../" ||
+            href === "#"
+        ) {
+
+            return;
+
+        }
+
+
+        const url =
+            originalURL(
+                href,
+                baseURL
+            );
+
+
+        if (!url) {
+
+            return;
+
+        }
+
+
+        if (
+            !url.includes(
+                "/wp-content/uploads/manuals/"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        const name =
+            cleanName(
+                link.textContent ||
+                href
+            );
+
+
+        if (
+            name === "To Parent Directory"
+        ) {
+
+            return;
+
+        }
+
+
+        const key =
+            url.toLowerCase();
+
+
+        if (
+            seen.has(key)
+        ) {
+
+            return;
+
+        }
+
+
+        seen.add(key);
+
+
+        results.push({
+
+            name: name,
+
+            url: url,
+
+            folder:
+                isFolder(
+                    name,
+                    url
+                ),
+
+            pdf:
+                isPDF(
+                    name,
+                    url
+                )
+
+        });
 
     });
 
-    return results;
-
-}
-
-
-/*
-=========================================================
-PARSE MARKDOWN
-
-Handles Jina markdown output.
-
-Supports both relative and absolute URLs.
-=========================================================
-*/
-
-function parseMarkdown(
-    text,
-    baseURL
-) {
-
-    const results = [];
-
-    const seen = new Set();
-
-
-    const regex =
-        /\[([^\]]+)\]\((?:<([^>]+)>|([^)]+))\)/g;
-
-
-    let match;
-
-
-    while (
-        (match =
-            regex.exec(text))
-        !== null
-    ) {
-
-        const name =
-            match[1];
-
-        const href =
-            match[2] ||
-            match[3];
-
-        addParsedLink(
-
-            results,
-
-            seen,
-
-            href,
-
-            name,
-
-            baseURL
-
-        );
-
-    }
-
 
     return results;
 
@@ -1135,16 +1232,14 @@ function parseMarkdown(
 
 /*
 =========================================================
-PARSE RAW URLS
+RAW URL FALLBACK
 
-Final fallback.
+If the proxy returns plain text with URLs,
+we can still recover them.
 =========================================================
 */
 
-function parseRawURLs(
-    text,
-    baseURL
-) {
+function parseRawURLs(text, baseURL) {
 
     const results = [];
 
@@ -1152,17 +1247,19 @@ function parseRawURLs(
 
 
     const regex =
-        /https?:\/\/[^\s"'<>]+/g;
+        /https?:\/\/[^\s<>"']+/gi;
 
 
     const matches =
-        text.match(regex) || [];
+        String(text)
+        .match(regex) || [];
 
 
-    matches.forEach(function(raw) {
+    matches.forEach(function(rawURL) {
 
         let url =
-            raw;
+            rawURL;
+
 
         url =
             url.replace(
@@ -1171,15 +1268,21 @@ function parseRawURLs(
             );
 
 
-        const lastPart =
-            url
-                .split("/")
-                .filter(Boolean)
-                .pop();
+        if (
+            !url.includes(
+                "/wp-content/uploads/manuals/"
+            )
+        ) {
+
+            return;
+
+        }
 
 
         let name =
-            lastPart || "";
+            url
+            .split("/")
+            .pop() || "";
 
 
         try {
@@ -1194,19 +1297,47 @@ function parseRawURLs(
         catch(error) {}
 
 
-        addParsedLink(
+        name =
+            cleanName(
+                name
+            );
 
-            results,
 
-            seen,
+        const key =
+            url.toLowerCase();
 
-            url,
 
-            name,
+        if (
+            seen.has(key)
+        ) {
 
-            baseURL
+            return;
 
-        );
+        }
+
+
+        seen.add(key);
+
+
+        results.push({
+
+            name: name,
+
+            url: url,
+
+            folder:
+                isFolder(
+                    name,
+                    url
+                ),
+
+            pdf:
+                isPDF(
+                    name,
+                    url
+                )
+
+        });
 
     });
 
@@ -1218,84 +1349,46 @@ function parseRawURLs(
 
 /*
 =========================================================
-PARSE DIRECTORY
-
-Uses multiple methods so the app doesn't depend on
-one particular Jina response format.
+SORT
 =========================================================
 */
 
-function parseDirectory(
-    text,
-    baseURL
-) {
+function sortItems(items) {
 
-    let results =
-        parseHTML(
-            text,
-            baseURL
-        );
+    return items.sort(
+        function(a, b) {
 
+            if (
+                a.folder &&
+                !b.folder
+            ) {
 
-    if (!results.length) {
+                return -1;
 
-        results =
-            parseMarkdown(
-                text,
-                baseURL
-            );
-
-    }
-
-
-    if (!results.length) {
-
-        results =
-            parseRawURLs(
-                text,
-                baseURL
-            );
-
-    }
-
-
-    /*
-    Sort folders first, then files.
-    */
-
-    results.sort(function(a, b) {
-
-        if (
-            a.folder &&
-            !b.folder
-        ) {
-
-            return -1;
-
-        }
-
-        if (
-            !a.folder &&
-            b.folder
-        ) {
-
-            return 1;
-
-        }
-
-        return a.name.localeCompare(
-            b.name,
-            undefined,
-            {
-                numeric: true,
-                sensitivity: "base"
             }
-        );
-
-    });
 
 
-    return results;
+            if (
+                !a.folder &&
+                b.folder
+            ) {
+
+                return 1;
+
+            }
+
+
+            return a.name.localeCompare(
+                b.name,
+                undefined,
+                {
+                    numeric: true,
+                    sensitivity: "base"
+                }
+            );
+
+        }
+    );
 
 }
 
@@ -1303,28 +1396,47 @@ function parseDirectory(
 /*
 =========================================================
 FETCH DIRECTORY
+
+IMPORTANT CHANGE:
+
+Use:
+
+https://r.jina.ai/https://www.addisonautomatics.com/...
+
+instead of the previous HTTP target.
+
 =========================================================
 */
 
 async function fetchDirectory(url) {
 
     if (
-        Object.prototype.hasOwnProperty.call(
-            pageCache,
-            url
-        )
+        directoryCache.has(url)
     ) {
 
-        return pageCache[url];
+        return directoryCache.get(url);
 
     }
 
 
-    const proxyURL =
-        "https://r.jina.ai/http://" +
-        url.replace(
-            /^https?:\/\//i,
-            ""
+    const proxy =
+        readerURL(
+            url
+        );
+
+
+    const controller =
+        new AbortController();
+
+
+    const timeout =
+        setTimeout(
+            function() {
+
+                controller.abort();
+
+            },
+            20000
         );
 
 
@@ -1332,18 +1444,27 @@ async function fetchDirectory(url) {
 
         const response =
             await fetch(
-                proxyURL,
+                proxy,
                 {
                     method: "GET",
-                    cache: "no-store"
+                    cache: "no-store",
+                    signal:
+                        controller.signal
                 }
             );
 
 
-        if (!response.ok) {
+        clearTimeout(
+            timeout
+        );
+
+
+        if (
+            !response.ok
+        ) {
 
             throw new Error(
-                "Directory unavailable: " +
+                "Reader returned " +
                 response.status
             );
 
@@ -1354,29 +1475,80 @@ async function fetchDirectory(url) {
             await response.text();
 
 
-        const links =
-            parseDirectory(
+        /*
+        Try Markdown first.
+        */
+
+        let items =
+            parseMarkdown(
                 text,
                 url
             );
 
 
-        pageCache[url] =
-            links;
+        /*
+        Try HTML if Markdown produced
+        nothing.
+        */
+
+        if (
+            !items.length
+        ) {
+
+            items =
+                parseHTML(
+                    text,
+                    url
+                );
+
+        }
 
 
-        return links;
+        /*
+        Final fallback.
+        */
+
+        if (
+            !items.length
+        ) {
+
+            items =
+                parseRawURLs(
+                    text,
+                    url
+                );
+
+        }
+
+
+        items =
+            sortItems(
+                items
+            );
+
+
+        directoryCache.set(
+            url,
+            items
+        );
+
+
+        return items;
 
     }
 
     catch(error) {
 
+        clearTimeout(
+            timeout
+        );
+
+
         console.error(
-            "Directory error:",
+            "ROWE directory error:",
             error
         );
 
-        pageCache[url] = null;
 
         return null;
 
@@ -1402,56 +1574,67 @@ function renderManufacturers() {
     grid.innerHTML = "";
 
 
-    manufacturers.forEach(function(manufacturer) {
+    manufacturers.forEach(
+        function(manufacturer) {
 
-        const button =
-            document.createElement(
-                "button"
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "manufacturer-button";
+
+
+            button.innerHTML =
+
+                '<span class="folder-icon">▱</span>' +
+
+                '<span>' +
+
+                escapeHTML(
+                    manufacturer.display
+                ) +
+
+                '</span>' +
+
+                '<span class="arrow">›</span>';
+
+
+            /*
+            IMPORTANT:
+
+            The button directly calls openDirectory()
+            using the actual Addison manufacturer path.
+            */
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    openDirectory(
+
+                        manufacturer.display,
+
+                        getManufacturerURL(
+                            manufacturer
+                        ),
+
+                        true
+
+                    );
+
+                }
             );
 
 
-        button.className =
-            "manufacturer-button";
+            grid.appendChild(
+                button
+            );
 
-
-        button.innerHTML =
-
-            '<span class="folder-icon">▱</span>' +
-
-            '<span>' +
-
-            escapeHTML(
-                manufacturer.display
-            ) +
-
-            '</span>' +
-
-            '<span class="arrow">›</span>';
-
-
-        button.onclick =
-            function() {
-
-                openDirectory(
-
-                    manufacturer.display,
-
-                    manufacturerURL(
-                        manufacturer
-                    ),
-
-                    true
-
-                );
-
-            };
-
-
-        grid.appendChild(
-            button
-        );
-
-    });
+        }
+    );
 
 }
 
@@ -1465,10 +1648,12 @@ OPEN DIRECTORY
 async function openDirectory(
     title,
     url,
-    pushHistory
+    saveHistory
 ) {
 
-    if (pushHistory) {
+    if (
+        saveHistory
+    ) {
 
         historyStack.push({
 
@@ -1476,7 +1661,7 @@ async function openDirectory(
                 currentTitle,
 
             url:
-                currentPath
+                currentURL
 
         });
 
@@ -1487,7 +1672,7 @@ async function openDirectory(
         title;
 
 
-    currentPath =
+    currentURL =
         url;
 
 
@@ -1504,7 +1689,7 @@ async function openDirectory(
             "breadcrumb"
         )
         .textContent =
-        buildBreadcrumb(
+        makeBreadcrumb(
             url
         );
 
@@ -1521,7 +1706,7 @@ async function openDirectory(
 
         '<div class="spinner"></div>' +
 
-        'Loading library...' +
+        'Loading directory...' +
 
         '</div>';
 
@@ -1543,37 +1728,39 @@ async function openDirectory(
         );
 
 
-    if (!items) {
+    if (
+        !items
+    ) {
 
         content.innerHTML =
 
             '<div class="notice">' +
 
-            '<strong>Library could not be loaded.</strong>' +
+            '<strong>Unable to load this directory.</strong>' +
 
             '<br><br>' +
 
-            'The live Addison directory could not be read automatically.' +
+            'ROWE could not read the Addison directory through the live reader.' +
 
             '<br><br>' +
 
             '<a ' +
 
-            'class="blue-button" ' +
+            'href="' +
+
+            escapeHTML(url) +
+
+            '" ' +
 
             'target="_blank" ' +
 
             'rel="noopener" ' +
 
-            'href="' +
+            'class="blue-button" ' +
 
-            escapeHTML(url) +
+            'style="display:inline-block;text-decoration:none">' +
 
-            '"' +
-
-            ' style="display:inline-block;text-decoration:none">' +
-
-            'OPEN SOURCE DIRECTORY' +
+            'OPEN ADDISON DIRECTORY' +
 
             '</a>' +
 
@@ -1585,7 +1772,7 @@ async function openDirectory(
     }
 
 
-    renderDirectory(
+    renderItems(
         items,
         content
     );
@@ -1595,11 +1782,11 @@ async function openDirectory(
 
 /*
 =========================================================
-RENDER DIRECTORY
+RENDER ITEMS
 =========================================================
 */
 
-function renderDirectory(
+function renderItems(
     items,
     container
 ) {
@@ -1607,7 +1794,9 @@ function renderDirectory(
     container.innerHTML = "";
 
 
-    if (!items.length) {
+    if (
+        !items.length
+    ) {
 
         container.innerHTML =
 
@@ -1617,7 +1806,7 @@ function renderDirectory(
 
             '<br><br>' +
 
-            'This directory appears to contain no readable files.' +
+            'The directory was reached, but no readable links were returned.' +
 
             '</div>';
 
@@ -1637,117 +1826,116 @@ function renderDirectory(
         "library-list";
 
 
-    items.forEach(function(item) {
+    items.forEach(
+        function(item) {
 
-        const button =
-            document.createElement(
-                "button"
-            );
-
-
-        button.className =
-
-            "item-button " +
-
-            (
-                item.folder
-                ? "folder-item"
-                : "pdf-item"
-            );
+            const button =
+                document.createElement(
+                    "button"
+                );
 
 
-        const icon =
-            item.folder
-            ? "📁"
-            : "📄";
+            button.className =
 
+                "item-button " +
 
-        const type =
-            item.folder
-            ? "FOLDER"
-            : "PDF DOCUMENT";
-
-
-        button.innerHTML =
-
-            '<span class="item-icon">' +
-
-            icon +
-
-            '</span>' +
-
-            '<span class="item-name">' +
-
-            escapeHTML(
-                item.name
-            ) +
-
-            '<span class="item-type">' +
-
-            type +
-
-            '</span>' +
-
-            '</span>' +
-
-            '<span class="arrow">›</span>';
-
-
-        button.onclick =
-            function() {
-
-                if (
+                (
                     item.folder
-                ) {
+                    ? "folder-item"
+                    : "pdf-item"
+                );
 
-                    /*
-                    Use the exact folder URL
-                    from Addison.
-                    */
 
-                    openDirectory(
+            const icon =
+                item.folder
+                ? "📁"
+                : "📄";
 
-                        item.name,
 
-                        item.url,
+            const type =
+                item.folder
+                ? "FOLDER"
+                : "PDF DOCUMENT";
 
-                        true
 
-                    );
+            button.innerHTML =
+
+                '<span class="item-icon">' +
+
+                icon +
+
+                '</span>' +
+
+                '<span class="item-name">' +
+
+                escapeHTML(
+                    item.name
+                ) +
+
+                '<span class="item-type">' +
+
+                type +
+
+                '</span>' +
+
+                '</span>' +
+
+                '<span class="arrow">›</span>';
+
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    if (
+                        item.folder
+                    ) {
+
+                        /*
+                        The folder URL is the actual
+                        URL found in Addison.
+                        */
+
+                        openDirectory(
+
+                            item.name,
+
+                            item.url,
+
+                            true
+
+                        );
+
+                    }
+
+                    else {
+
+                        /*
+                        THIS IS THE MOST IMPORTANT PART.
+
+                        item.url is the original Addison
+                        href.
+
+                        We open that exact URL.
+                        */
+
+                        window.open(
+                            item.url,
+                            "_blank"
+                        );
+
+                    }
 
                 }
-
-                else {
-
-                    /*
-                    IMPORTANT:
-                    Open the ORIGINAL PDF URL.
-
-                    No filename reconstruction.
-                    No fake URL.
-                    No Jina PDF proxy.
-                    */
-
-                    window.open(
-
-                        item.url,
-
-                        "_blank",
-
-                        "noopener"
-
-                    );
-
-                }
-
-            };
+            );
 
 
-        list.appendChild(
-            button
-        );
+            list.appendChild(
+                button
+            );
 
-    });
+        }
+    );
 
 
     container.appendChild(
@@ -1763,13 +1951,13 @@ BREADCRUMB
 =========================================================
 */
 
-function buildBreadcrumb(url) {
+function makeBreadcrumb(url) {
 
     if (
         !url.startsWith(ROOT)
     ) {
 
-        return "LIBRARY";
+        return "ROWE";
 
     }
 
@@ -1782,9 +1970,15 @@ function buildBreadcrumb(url) {
 
     const parts =
         relative
-            .split("/")
-            .filter(Boolean)
-            .map(function(part) {
+        .split("/")
+        .filter(
+            Boolean
+        );
+
+
+    const names =
+        parts.map(
+            function(part) {
 
                 try {
 
@@ -1800,12 +1994,13 @@ function buildBreadcrumb(url) {
 
                 }
 
-            });
+            }
+        );
 
 
     return [
         "ROWE",
-        ...parts
+        ...names
     ].join(
         "  /  "
     );
@@ -1852,6 +2047,10 @@ function goBack() {
 /*
 =========================================================
 SEARCH
+
+Searches through directories recursively.
+
+The search result retains the ORIGINAL URL.
 =========================================================
 */
 
@@ -1859,12 +2058,12 @@ async function runSearch() {
 
     const query =
         document
-            .getElementById(
-                "searchInput"
-            )
-            .value
-            .trim()
-            .toLowerCase();
+        .getElementById(
+            "searchInput"
+        )
+        .value
+        .trim()
+        .toLowerCase();
 
 
     if (!query) {
@@ -1885,25 +2084,25 @@ async function runSearch() {
         );
 
 
-    const resultBox =
+    const results =
         document.getElementById(
             "searchResults"
         );
 
 
+    results.innerHTML = "";
+
+
     status.innerHTML =
-
-        '<strong>SEARCHING LIVE LIBRARY</strong>' +
-
-        '<br><br>' +
-
-        'Checking manufacturer directories. This may take a moment the first time.';
+        "<strong>SEARCHING...</strong><br><br>" +
+        "Checking the live manual library.";
 
 
-    resultBox.innerHTML = "";
+    const foundURLs =
+        new Set();
 
 
-    let matches = 0;
+    let foundCount = 0;
 
 
     for (
@@ -1913,56 +2112,55 @@ async function runSearch() {
 
         status.innerHTML =
 
-            '<strong>SEARCHING LIVE LIBRARY</strong>' +
+            "<strong>SEARCHING...</strong><br><br>" +
 
-            '<br><br>' +
-
-            'Checking: ' +
+            "Checking " +
 
             escapeHTML(
                 manufacturer.display
-            );
+            ) +
+
+            "...";
 
 
-        const url =
-            manufacturerURL(
-                manufacturer
-            );
-
-
-        const found =
+        const count =
             await searchDirectory(
 
-                url,
+                getManufacturerURL(
+                    manufacturer
+                ),
 
                 manufacturer.display,
 
                 query,
 
-                0
+                0,
+
+                results,
+
+                foundURLs
 
             );
 
 
-        matches += found;
+        foundCount += count;
 
     }
 
 
     if (
-        matches === 0 &&
-        resultBox.children.length === 0
+        foundCount === 0
     ) {
 
-        resultBox.innerHTML =
+        results.innerHTML =
 
             '<div class="notice">' +
 
-            '<strong>No matching manual found.</strong>' +
+            '<strong>No matching documents found.</strong>' +
 
             '<br><br>' +
 
-            'Try searching for a manufacturer, model number, or a word from the manual title.' +
+            'Try a manufacturer or model number.' +
 
             '</div>';
 
@@ -1971,11 +2169,19 @@ async function runSearch() {
 
     status.innerHTML =
 
-        '<strong>SEARCH COMPLETE</strong>' +
+        "<strong>SEARCH COMPLETE</strong><br><br>" +
 
-        '<br><br>' +
+        foundCount +
 
-        'Matching folders and documents are shown below.';
+        " matching item" +
+
+        (
+            foundCount === 1
+            ? ""
+            : "s"
+        ) +
+
+        " found.";
 
 }
 
@@ -1988,17 +2194,19 @@ RECURSIVE SEARCH
 
 async function searchDirectory(
     url,
-    pathName,
+    path,
     query,
-    depth
+    depth,
+    resultContainer,
+    foundURLs
 ) {
 
     /*
-    Prevent excessive crawling.
+    Safety limit.
     */
 
     if (
-        depth > 4
+        depth > 5
     ) {
 
         return 0;
@@ -2012,7 +2220,9 @@ async function searchDirectory(
         );
 
 
-    if (!items) {
+    if (
+        !items
+    ) {
 
         return 0;
 
@@ -2027,73 +2237,78 @@ async function searchDirectory(
         of items
     ) {
 
-        const itemPath =
-            pathName +
-            " / " +
-            item.name;
-
-
         const searchText =
 
-            item.name +
-
-            " " +
-
-            pathName;
+            (
+                path +
+                " " +
+                item.name
+            )
+            .toLowerCase();
 
 
         if (
-            searchText
-                .toLowerCase()
-                .includes(query)
+            searchText.includes(
+                query
+            )
         ) {
 
-            addSearchResult(
+            if (
+                !foundURLs.has(
+                    item.url
+                )
+            ) {
 
-                document.getElementById(
-                    "searchResults"
-                ),
-
-                item.name,
-
-                itemPath,
-
-                item.url,
-
-                item.folder
-
-            );
+                foundURLs.add(
+                    item.url
+                );
 
 
-            count++;
+                addSearchResult(
+
+                    resultContainer,
+
+                    item,
+
+                    path
+
+                );
+
+
+                count++;
+
+            }
 
         }
 
 
         /*
-        Search folders recursively.
+        Search folders too.
         */
 
         if (
             item.folder
         ) {
 
-            const childCount =
+            count +=
+
                 await searchDirectory(
 
                     item.url,
 
-                    itemPath,
+                    path +
+                    " / " +
+                    item.name,
 
                     query,
 
-                    depth + 1
+                    depth + 1,
+
+                    resultContainer,
+
+                    foundURLs
 
                 );
-
-
-            count +=
-                childCount;
 
         }
 
@@ -2107,42 +2322,15 @@ async function searchDirectory(
 
 /*
 =========================================================
-ADD SEARCH RESULT
+SEARCH RESULT
 =========================================================
 */
 
 function addSearchResult(
     container,
-    title,
-    path,
-    url,
-    folder
+    item,
+    path
 ) {
-
-    /*
-    Avoid duplicates.
-    */
-
-    const existing =
-        Array.from(
-            container.children
-        )
-        .some(function(element) {
-
-            return (
-                element.dataset.url ===
-                url
-            );
-
-        });
-
-
-    if (existing) {
-
-        return;
-
-    }
-
 
     const result =
         document.createElement(
@@ -2154,22 +2342,18 @@ function addSearchResult(
         "search-result";
 
 
-    result.dataset.url =
-        url;
-
-
     result.innerHTML =
 
         '<div class="search-result-title">' +
 
         (
-            folder
+            item.folder
             ? "📁 "
             : "📄 "
         ) +
 
         escapeHTML(
-            title
+            item.name
         ) +
 
         '</div>' +
@@ -2183,16 +2367,19 @@ function addSearchResult(
         '</div>';
 
 
-    result.onclick =
+    result.addEventListener(
+        "click",
         function() {
 
-            if (folder) {
+            if (
+                item.folder
+            ) {
 
                 openDirectory(
 
-                    title,
+                    item.name,
 
-                    url,
+                    item.url,
 
                     true
 
@@ -2202,23 +2389,15 @@ function addSearchResult(
 
             else {
 
-                /*
-                ORIGINAL PDF URL.
-                */
-
                 window.open(
-
-                    url,
-
-                    "_blank",
-
-                    "noopener"
-
+                    item.url,
+                    "_blank"
                 );
 
             }
 
-        };
+        }
+    );
 
 
     container.appendChild(
@@ -2230,7 +2409,7 @@ function addSearchResult(
 
 /*
 =========================================================
-ENTER KEY SEARCH
+ENTER KEY
 =========================================================
 */
 
@@ -2243,8 +2422,7 @@ document
         function(event) {
 
             if (
-                event.key ===
-                "Enter"
+                event.key === "Enter"
             ) {
 
                 runSearch();
@@ -2257,7 +2435,7 @@ document
 
 /*
 =========================================================
-START
+START APP
 =========================================================
 */
 
