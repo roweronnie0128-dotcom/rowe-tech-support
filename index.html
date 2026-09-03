@@ -46,22 +46,107 @@ const data={
 'BEA':[], 'Besam':['Fold','ICU','Revolver','Slider','Swinger'], 'Detex':[], 'DOM':['Astro','Senior','Mid'], 'Dorma':['ED100 / ED250','ED400','ED700','ED800'], 'Gildor':[], 'Horton':[], 'Hunter-Entrematic':[], 'KM':['KM 1000','KM 1100','KM 2000','KM 3000','KM 3500','KM 3800','KM 4000','KM 5100','KM 7000','KM 8000'], 'LCN':[], 'Motion Access':[], 'Nabco_GyroTech':[], 'Norton':[], 'Optex':[], 'Record':['4500','5100','5900','6100'], 'Stanley':[], 'TJ084':[], 'Tormax':[], 'Tucker':[]
 };
 const manualHints={
-'Dorma|ED100 / ED250':['Installation / Service Manual','User & Setup Documentation'],
-'Dorma|ED400':['Service Manual'],
-'Dorma|ED700':['Service Manual'],
-'Dorma|ED800':['Service Manual'],
-'Besam|Slider':['4000 Full Manual','UniSlide Documentation','SL500 Documentation'],
-'Besam|Swinger':['Swinger Service Documentation'],
-'KM|KM 1000':['Service / Installation Manual'],
-'KM|KM 1100':['Service / Installation Manual'],
-'KM|KM 2000':['Service / Installation Manual'],
-'KM|KM 3000':['Service / Installation Manual'],
-'KM|KM 3500':['Service / Installation Manual'],
-'KM|KM 3800':['Service / Installation Manual'],
-'KM|KM 4000':['Service / Installation Manual'],
-'KM|KM 5100':['Service / Installation Manual'],
-'KM|KM 7000':['Service / Installation Manual'],
-'KM|KM 8000':['Service / Installation Manual']
+'Dorma|ED100 / ED250':[
+  ['ED100 & ED250 — Mounting / Installation Instructions','https://www.addisonautomatics.com/wp-content/uploads/manuals/dorma/DL3463-010%20ED100%20%26%20ED250%20Mounting%20Instructions%2002-21-12.pdf'],
+  ['ED100 & ED250 — Operating Instructions','https://www.addisonautomatics.com/wp-content/uploads/manuals/Dorma/ED100%20%26%20ED250.pdf']
+],
+'Dorma|ED400':[
+  ['ED400 — Controller Manual','https://www.addisonautomatics.com/wp-content/uploads/manuals/Dorma/ED400%20-%20ControllerManual.pdf'],
+  ['ED400 — OHC','https://www.addisonautomatics.com/wp-content/uploads/manuals/Dorma/ED400%20OHC.pdf'],
+  ['ED400 — SA','https://www.addisonautomatics.com/wp-content/uploads/manuals/Dorma/ED400%20SA.pdf']
+],
+'Dorma|ED700':[
+  ['ED700 — Digital / NS Manual','https://www.addisonautomatics.com/wp-content/uploads/manuals/Dorma/ED700%20NS%20Digital.pdf'],
+  ['ED700 — Older Style Manual','https://www.addisonautomatics.com/wp-content/uploads/manuals/Dorma/ED700%20OLD%20STYLE.pdf']
+],
+'Dorma|ED800':[
+  ['ED800 — Installation','https://www.addisonautomatics.com/wp-content/uploads/manuals/Dorma/ED800%20INSTALLATION.pdf'],
+  ['ED800 — Service','https://www.addisonautomatics.com/wp-content/uploads/manuals/Dorma/ED800%20SERVICE.pdf']
+],
+'Besam|Slider':[
+  ['Power Glide 4000','https://www.addisonautomatics.com/wp-content/uploads/manuals/Besam/Slider/Besam%20Power%20Glide%204000.pdf'],
+  ['4000 — Full Manual','https://www.addisonautomatics.com/wp-content/uploads/manuals/Besam/Slider/4000%20FULL%20MANUAL.pdf'],
+  ['UniSlide — Installation Manual Rev H','https://www.addisonautomatics.com/wp-content/uploads/manuals/Besam/Slider/UniSlide%20Installation%20Manual%20Rev%20H%20%289-21-11%29%20%281%29.pdf'],
+  ['New UniSlide (Black)','https://www.addisonautomatics.com/wp-content/uploads/manuals/Besam/Slider/NEW%20UNISLIDE%20%28Black%29.pdf'],
+  ['SL500','https://www.addisonautomatics.com/wp-content/uploads/manuals/Besam/Slider/SL500.pdf'],
+  ['SL500 — Telescopic','https://www.addisonautomatics.com/wp-content/uploads/manuals/Besam/Slider/SL500%20TELESCOPIC.pdf']
+],
+'Besam|Swinger':[
+  ['Power Swing — Installation / Tune','https://www.addisonautomatics.com/wp-content/uploads/manuals/Besam/Swinger/Besam%20Power%20Swing%20instll%20tune.pdf'],
+  ['SW100 — Low Energy Swing','https://www.addisonautomatics.com/wp-content/uploads/manuals/Besam/Swinger/Besam%20SW100%20Low%20energy%20swing.pdf'],
+  ['Swing Master 900','https://www.addisonautomatics.com/wp-content/uploads/manuals/Besam/Swinger/Besam%20Swing%20Master%20900.pdf'],
+  ['Swing Master MP','https://www.addisonautomatics.com/wp-content/uploads/manuals/Besam/Swinger/Besam%20Swing%20Master%20MP.pdf'],
+  ['PowerSwing','https://www.addisonautomatics.com/wp-content/uploads/manuals/Besam/Swinger/POWERSWING.pdf']
+],
+'DOM|Astro':[
+  ['Astro Swing — Installation / Service','https://www.addisonautomatics.com/wp-content/uploads/manuals/DOM/DOM%20Astro%20Swing%20Instll%20and%20Srvc.pdf'],
+  ['Astro Slide — General Installation','https://www.addisonautomatics.com/wp-content/uploads/manuals/DOM/ASTRO%20SLIDE%20GENERAL%20INSTALL.pdf'],
+  ['Astro Slide — Wiring','https://www.addisonautomatics.com/wp-content/uploads/manuals/DOM/Astro%20Slide%20wiring.pdf'],
+  ['Astro Fold — Installation','https://www.addisonautomatics.com/wp-content/uploads/manuals/DOM/Astro%20Fold%20Install.pdf']
+],
+'DOM|Senior':[
+  ['Senior Swing — Installation','https://www.addisonautomatics.com/wp-content/uploads/manuals/DOM/DOM%20Mid%20and%20Sr%20Swing%20Install.pdf'],
+  ['Senior Swing 84545','https://www.addisonautomatics.com/wp-content/uploads/manuals/DOM/DOM%20Sr%20Swing%2085445.pdf']
+],
+'DOM|Mid':[
+  ['Mid Swing — Installation','https://www.addisonautomatics.com/wp-content/uploads/manuals/DOM/DOM%20Mid%20and%20Sr%20Swing%20Install.pdf'],
+  ['Mid Swing 84555','https://www.addisonautomatics.com/wp-content/uploads/manuals/DOM/DOM%20Mid%20Swing%2085455.pdf']
+],
+'KM|KM 1000':[
+  ['KM 1000 — Electromechanical','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%201000%20electromechanical.pdf']
+],
+'KM|KM 1100':[
+  ['KM 1100 — Ultra Glide with ZII Control','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%201100%20ultra%20glide%20with%20ZII%20cntrl.pdf'],
+  ['KM 1100 — Z II','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/K-M%201100%20Z%20II.pdf'],
+  ['KM 1100 — Standard Manual','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%201100.pdf']
+],
+'KM|KM 2000':[
+  ['KM 2000 — TM8 / Large','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%202000_1974%20TM8%20-%20LARGE.pdf'],
+  ['TM8 — 2000','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/TM8%20-%202000.pdf']
+],
+'KM|KM 3000':[
+  ['KM 3000 — Manual','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%203000.pdf']
+],
+'KM|KM 3500':[
+  ['KM 3500 — Manual','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%203500.pdf'],
+  ['KM 3500 with K Control','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%203500%20w%20K%20contrl.pdf'],
+  ['K-Control 3500','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/K-CONTROL%203500.pdf']
+],
+'KM|KM 3800':[
+  ['KM 3800 — Manual','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%203800.pdf']
+],
+'KM|KM 4000':[
+  ['KM 4000 — Model CO-8','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%204000%20model%20CO-8.pdf']
+],
+'KM|KM 5100':[
+  ['KM 5100 — Slide Installation','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%205100%20slide%20install.pdf'],
+  ['KM 5100 — Remote Control','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%205100%20remote%20control_2006.pdf'],
+  ['KM 5100 — Service with FPC 902','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%20service%205100%20w_%20FPC%20902.pdf']
+],
+'KM|KM 7000':[
+  ['KM 7000 — Troubleshooting','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%207000%20trouble%20shoot.pdf']
+],
+'KM|KM 8000':[
+  ['KM 8000 — 2006 Manual','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%208000%20_2006.pdf'],
+  ['KM 800 — Service with FPC 902','https://www.addisonautomatics.com/wp-content/uploads/manuals/KM/KM%20service%20800%20with%20FPC%20902.pdf']
+],
+'Record|4500':[
+  ['4500 Fold — System 20','https://www.addisonautomatics.com/wp-content/uploads/manuals/record/4500%20FOLD%20SYS%2020.pdf'],
+  ['4500 Fold — Wiring','https://www.addisonautomatics.com/wp-content/uploads/manuals/record/4500%20FOLD%20WIRING.pdf'],
+  ['4500 Fold — Parameters','https://www.addisonautomatics.com/wp-content/uploads/manuals/record/4500%20FOLD%20PARAMETERS.pdf']
+],
+'Record|5100':[
+  ['5100 — System 19','https://www.addisonautomatics.com/wp-content/uploads/manuals/record/5100%20SYSTEM%2019.pdf'],
+  ['5100 — Battery Backup','https://www.addisonautomatics.com/wp-content/uploads/manuals/record/5100%20BATTERY%20BACKUP.pdf'],
+  ['5100 — Lock Installation','https://www.addisonautomatics.com/wp-content/uploads/manuals/record/5100%20LOCK%20INSTALL.pdf'],
+  ['S5100 — Install Instructions / System 19','https://www.addisonautomatics.com/wp-content/uploads/manuals/record/S5100InstallInstructionsFeb10%20SYSTEM%2019.pdf']
+],
+'Record|5900':[
+  ['5900 ICU — Installation','https://www.addisonautomatics.com/wp-content/uploads/manuals/record/5900%20ICU%20INSTALL.pdf']
+],
+'Record|6100':[
+  ['6100 — Installation Manual','https://www.addisonautomatics.com/wp-content/uploads/manuals/record/6100%20INSTALL%20MANUAL.pdf']
+]
 };
 const makers=document.getElementById('makers');
 function render(q=''){makers.innerHTML='';q=q.toLowerCase().trim();let n=0;
@@ -74,8 +159,26 @@ function goHome(){show('home')}function goModels(){show('models')}
 function openMaker(m){const ms=data[m];document.getElementById('modelCrumb').textContent=m.replace('_',' / ');document.getElementById('modelTitle').textContent=ms.length?'Choose model / family':'Manufacturer library';const box=document.getElementById('modelList');box.innerHTML='';
 if(!ms.length){box.innerHTML='<a class="manual primary" target="_blank" rel="noopener" href="'+BASE+encodeURIComponent(m)+'/">OPEN '+m.toUpperCase()+' LIBRARY ↗</a>'}else ms.forEach(x=>{let b=document.createElement('button');b.className='model';b.innerHTML='<span>'+x+'</span><span class="arrow">›</span>';b.onclick=()=>openModel(m,x);box.appendChild(b)});show('models')}
 function openModel(m,x){document.getElementById('manualCrumb').textContent=m+' / '+x;document.getElementById('manualTitle').textContent='Available documents';const box=document.getElementById('manualList');box.innerHTML='';
-const hints=manualHints[m+'|'+x]||['View available documents in this model library'];
-hints.forEach((h,i)=>{let a=document.createElement('a');a.className='manual';a.target='_blank';a.rel='noopener';a.href=BASE+encodeURIComponent(m)+'/';a.innerHTML='<b>📘 '+h+'</b><span>Open authorized document library ↗</span>';box.appendChild(a)});
+const hints=manualHints[m+'|'+x];
+if(hints){
+  hints.forEach(item=>{
+    let a=document.createElement('a');
+    a.className='manual';
+    a.target='_blank';
+    a.rel='noopener';
+    a.href=item[1];
+    a.innerHTML='<b>📘 '+item[0]+'</b><span>Open PDF ↗</span>';
+    box.appendChild(a);
+  });
+}else{
+  let a=document.createElement('a');
+  a.className='manual primary';
+  a.target='_blank';
+  a.rel='noopener';
+  a.href=BASE+encodeURIComponent(m)+'/';
+  a.innerHTML='<b>OPEN MODEL LIBRARY ↗</b><span>Browse available documents</span>';
+  box.appendChild(a);
+}
 show('manuals')}
 function completeLibrary(){window.open(BASE,'_blank','noopener')}
 document.getElementById('search').addEventListener('input',e=>{render(e.target.value);show('home')});
