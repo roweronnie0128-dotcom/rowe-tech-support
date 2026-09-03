@@ -42,9 +42,8 @@ footer{text-align:center;padding:20px 18px 45px;color:#62798a;font-size:10px}
 
 <script>
 const BASE='https://www.addisonautomatics.com/wp-content/uploads/manuals/';
-const data={
-'BEA':[], 'Besam':['Fold','ICU','Revolver','Slider','Swinger'], 'Detex':[], 'DOM':['Astro','Senior','Mid'], 'Dorma':['ED100 / ED250','ED400','ED700','ED800'], 'Gildor':[], 'Horton':[], 'Hunter-Entrematic':[], 'KM':['KM 1000','KM 1100','KM 2000','KM 3000','KM 3500','KM 3800','KM 4000','KM 5100','KM 7000','KM 8000'], 'LCN':[], 'Motion Access':[], 'Nabco_GyroTech':[], 'Norton':[], 'Optex':[], 'Record':['4500','5100','5900','6100'], 'Stanley':[], 'TJ084':[], 'Tormax':[], 'Tucker':[]
-};
+const makerGrid=document.getElementById('makers');
+
 const manualHints={
 'Dorma|ED100 / ED250':[
   ['ED100 & ED250 — Mounting / Installation Instructions','https://www.addisonautomatics.com/wp-content/uploads/manuals/dorma/DL3463-010%20ED100%20%26%20ED250%20Mounting%20Instructions%2002-21-12.pdf'],
@@ -365,9 +364,9 @@ const catalog={
 },
 "Tucker":{"Complete Library":[["Tucker — Complete Manual Library","https://www.addisonautomatics.com/wp-content/uploads/manuals/Tucker/"]]}
 };
-function render(q=''){const makersEl=document.getElementById('makerGrid');makersEl.innerHTML='';q=q.toLowerCase().trim();let n=0;
-Object.entries(catalog).forEach(([m,ms])=>{if(q && !(m+' '+Object.keys(ms).join(' ')).toLowerCase().includes(q))return;n++;let b=document.createElement('button');b.className='maker';b.innerHTML='<b>'+m.replace('_',' / ')+'</b><span>'+ (Object.keys(ms).length?Object.keys(ms).length+' model/family options':'Browse manufacturer library')+'</span>';b.onclick=()=>openMaker(m);makersEl.appendChild(b)});
-if(!n)makersEl.innerHTML='<div class="panel" style="grid-column:1/-1">No match. Try a manufacturer or model name.</div>';
+function render(q=''){makerGrid.innerHTML='';q=q.toLowerCase().trim();let n=0;
+Object.entries(catalog).forEach(([m,ms])=>{if(q && !(m+' '+Object.keys(ms).join(' ')).toLowerCase().includes(q))return;n++;let b=document.createElement('button');b.className='maker';b.innerHTML='<b>'+m.replace('_',' / ')+'</b><span>'+ (Object.keys(ms).length?Object.keys(ms).length+' model/family options':'Browse manufacturer library')+'</span>';b.onclick=()=>openMaker(m);makerGrid.appendChild(b)});
+if(!n)makerGrid.innerHTML='<div class="panel" style="grid-column:1/-1">No match. Try a manufacturer or model name.</div>';
 }
 function clearSearch(){document.getElementById('search').value='';render();goHome()}
 function show(id){['home','models','manuals'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));scrollTo(0,0)}
